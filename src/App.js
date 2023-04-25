@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { Appointment, Dashboard, Patient } from "./pages/Doctor";
+import { Sidebar, Topbar } from "./features/components";
 
-function App() {
+const Doctor = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex bg-slate-100 h-screen ">
+      <Sidebar />
+      <div className="w-full overflow-y-scroll">
+        <Topbar />
+        <Outlet />
+      </div>
     </div>
   );
+};
+const Admin = () => {
+  return (
+    <>
+      <Sidebar />
+      <Outlet />
+    </>
+  );
+};
+
+const router = createBrowserRouter([
+  {
+    path: "/doctor",
+    element: <Doctor />,
+    children: [
+      {
+        path: "/doctor",
+        element: <Dashboard />,
+      },
+      {
+        path: "/doctor/patient",
+        element: <Patient />,
+      },
+      {
+        path: "/doctor/appointment",
+        element: <Appointment />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <Doctor />,
+    children: [
+      {
+        path: "/admin",
+        element: <Dashboard />,
+      },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;
