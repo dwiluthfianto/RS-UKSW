@@ -59,6 +59,24 @@ const Dashboard = () => {
       position: "Open source manager",
       salary: "$75K",
     },
+    {
+      name: "Amelia Elijah",
+      email: "amelia.elijah@example.com",
+      position: "Open source manager",
+      salary: "$75K",
+    },
+    {
+      name: "Amelia Elijah",
+      email: "amelia.elijah@example.com",
+      position: "Open source manager",
+      salary: "$75K",
+    },
+    {
+      name: "Amelia Elijah",
+      email: "amelia.elijah@example.com",
+      position: "Open source manager",
+      salary: "$75K",
+    },
   ];
   return (
     <div className="p-2 md:p-8 space-y-8">
@@ -74,20 +92,72 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="flex gap-5">
-        <div className="bg-white w-2/3">
-          <Chart
-            options={chart1.options}
-            series={chart1.series}
-            type="area"
-            height={350}
-          />
+        <div className="w-3/4 grid grid-cols-3 gap-5">
+          <div className="bg-white rounded-md p-5 flex flex-col justify-between cursor-pointer">
+            <div className="flex gap-3 items-center">
+              <i class="ri-wallet-3-line ri-2x"></i>
+              <p className="text-2xl font-bold">Income</p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold">$3210</p>
+              <p className=" text-gray-400">Per Month</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-md p-5 flex flex-col justify-between cursor-pointer">
+            <div className="flex justify-between items-center">
+              <i class="ri-medicine-bottle-line ri-2x"></i>
+              <div className="flex gap-2">
+                <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg  rtl:flex-row-reverse ">
+                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm ">
+                    Days
+                  </button>
+
+                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
+                    Months
+                  </button>
+
+                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
+                    Years
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p className="text-4xl font-bold">2321</p>
+              <p className=" text-gray-400">Patients</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-md p-5 flex flex-col justify-between cursor-pointer">
+            <div className="flex justify-between items-center">
+              <i class="ri-calendar-2-line ri-2x"></i>
+              <div className="flex gap-2">
+                <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg  rtl:flex-row-reverse ">
+                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm ">
+                    Days
+                  </button>
+
+                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
+                    Months
+                  </button>
+
+                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
+                    Years
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p className="text-4xl font-bold">21</p>
+              <p className=" text-gray-400">Appointments</p>
+            </div>
+          </div>
         </div>
-        <div className="bg-white w-1/3">
+        <div className="bg-white w-1/4 rounded-md">
           <Chart
             options={chart1.options}
             series={chart1.series}
             type="area"
-            height={350}
+            height={200}
           />
         </div>
       </div>
