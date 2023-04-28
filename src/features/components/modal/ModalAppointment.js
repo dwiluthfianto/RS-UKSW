@@ -1,7 +1,25 @@
-import { useState } from "react";
+import Select from "../select";
 
-const ModalAccount = ({ state, onClick }) => {
-  const radios = ["Patient", "Doctor"];
+const ModalAppointment = ({ state, onClick }) => {
+  const specialistItems = [
+    "Cardiologist",
+    "Neurologist",
+    "Oncologist",
+    "Gastroenterologist",
+    "Orthopedic surgeon",
+    "Pulmonologist",
+    "Dentist",
+    "Nephrologist",
+    "Surgeon",
+    "Radiologist",
+    "Psychiatrist",
+    "Urologist",
+    "Rheumatologist",
+    "Otolaryngologist",
+    "Gynecologist",
+    "Hematologist",
+  ];
+  const doctorItems = ["dr Dwi Luthfianto", "dr Tresno"];
   return state ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -14,7 +32,7 @@ const ModalAccount = ({ state, onClick }) => {
             <div className="flex items-start justify-between">
               <div>
                 <h4 className="text-lg font-medium text-gray-800">
-                  Edit account
+                  Edit appointment
                 </h4>
                 <p className="text-[15px] text-gray-600 mt-4">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -50,6 +68,37 @@ const ModalAccount = ({ state, onClick }) => {
                   />
                 </div>
 
+                <div className="flex flex-col items-center gap-y-5 gap-x-6 [&>*]:w-full sm:flex-row">
+                  <div>
+                    <label className="font-medium">Gender</label>
+                    <div className="relative  mx-auto mt-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="absolute top-0 bottom-0 w-6 h-6 my-auto text-gray-400 right-2.5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-pink-600">
+                        <option>Laki-laki</option>
+                        <option>Perempuan</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="font-medium">Age</label>
+                    <input
+                      type="number"
+                      required
+                      className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
+                    />
+                  </div>
+                </div>
                 <div>
                   <label className="font-medium">Email</label>
                   <input
@@ -59,40 +108,30 @@ const ModalAccount = ({ state, onClick }) => {
                   />
                 </div>
                 <div>
-                  <label className="font-medium">Password</label>
+                  <label className="font-medium">Phone number</label>
                   <div className="relative mt-2">
                     <input
-                      type="password"
+                      type="number"
                       required
                       className="w-full px-3 py-2 appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                     />
                   </div>
                 </div>
-                <div>
-                  <h2 className="text-gray-800 font-medium">Status</h2>
-                  <ul className=" flex items-center gap-4">
-                    {/* Radio groups */}
-                    {radios.map((item, idx) => (
-                      <li key={idx} className="flex items-center gap-x-2.5">
-                        <input
-                          type="radio"
-                          name="role"
-                          id={idx}
-                          className="form-radio border-gray-400 text-pink-600 focus:ring-pink-600 duration-150"
-                        />
-                        <label
-                          htmlFor={idx}
-                          className="text-sm text-gray-700 font-medium"
-                        >
-                          {item}
-                        </label>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <Select items={specialistItems} title="specialists" />
+                <Select items={doctorItems} title="doctors" />
+                <Select items={doctorItems} title="Doctor's Schedule" />
 
+                <div>
+                  <label className="font-medium capitalize">
+                    symptoms & conditions
+                  </label>
+                  <textarea
+                    required
+                    className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
+                  ></textarea>
+                </div>
                 <button className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150">
-                  Edit
+                  Submit
                 </button>
               </form>
             </div>
@@ -105,4 +144,4 @@ const ModalAccount = ({ state, onClick }) => {
   );
 };
 
-export default ModalAccount;
+export default ModalAppointment;

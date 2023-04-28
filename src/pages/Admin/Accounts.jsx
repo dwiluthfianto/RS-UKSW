@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Modal } from "../../features/components";
+import { ModalAccount } from "../../features/components";
 
 const Account = () => {
   const tableItems = [
@@ -43,7 +43,7 @@ const Account = () => {
   const onClick = () => setState(false);
   return (
     <div>
-      <Modal state={state} onClick={onClick} />
+      <ModalAccount state={state} onClick={onClick} />
       <div className="p-2 md:p-8">
         <div className="max-w-lg">
           <h3 className="text-gray-800 text-4xl font-bold">Accounts</h3>
