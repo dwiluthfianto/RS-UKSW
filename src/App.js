@@ -1,6 +1,7 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { Appointment, Dashboard, Patient } from "./pages/Doctor";
-import { Sidebar, Topbar } from "./features/components";
+import { Appointment, Dashboard, LoginDoctor, Patient } from "./pages/Doctor";
+import { Footer, Nav, Sidebar, Topbar } from "./features/components";
+import { Home, LoginUser, Signup } from "./pages/User";
 
 const Doctor = () => {
   return (
@@ -21,6 +22,15 @@ const Admin = () => {
     </>
   );
 };
+const User = () => {
+  return (
+    <>
+      <Nav />
+      <Outlet />
+      <Footer />
+    </>
+  );
+};
 
 const router = createBrowserRouter([
   {
@@ -28,7 +38,7 @@ const router = createBrowserRouter([
     element: <Doctor />,
     children: [
       {
-        path: "/doctor",
+        path: "/doctor/dashboard",
         element: <Dashboard />,
       },
       {
@@ -42,12 +52,34 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: "/doctor/login",
+    element: <LoginDoctor />,
+  },
+  {
     path: "/admin",
     element: <Doctor />,
     children: [
       {
         path: "/admin",
         element: <Dashboard />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <User />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <LoginUser />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
       },
     ],
   },

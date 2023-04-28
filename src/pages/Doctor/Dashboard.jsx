@@ -71,28 +71,22 @@ const Dashboard = () => {
       position: "Open source manager",
       salary: "$75K",
     },
-    {
-      name: "Amelia Elijah",
-      email: "amelia.elijah@example.com",
-      position: "Open source manager",
-      salary: "$75K",
-    },
   ];
   return (
-    <div className="p-2 md:p-8 space-y-8">
-      <div className="flex gap-5 items-center">
+    <div className="p-2 md:p-8 space-y-5">
+      <div className="flex flex-col gap-5 lg:flex-row items-center">
         <p className="text-4xl font-bold">Analytics</p>
         <div className="flex gap-5 px-2 py-2 bg-slate-200 rounded-full items-center">
-          <div className="px-10 py-1 bg-white rounded-full font-medium cursor-pointer">
-            <p>Full Statistics</p>
+          <div className="px-5 lg:px-10 py-1 bg-white rounded-full font-medium cursor-pointer">
+            <p className="text-sm lg:text-base">Full Statistics</p>
           </div>
-          <div className="px-10 py-1 rounded-full text-slate-600  font-medium cursor-pointer">
-            <p>Result Summary</p>
+          <div className="px-5 lg:px-10 py-1 rounded-full text-slate-600  font-medium cursor-pointer">
+            <p className="text-sm lg:text-base">Result Summary</p>
           </div>
         </div>
       </div>
-      <div className="flex gap-5">
-        <div className="w-3/4 grid grid-cols-3 gap-5">
+      <div className="flex flex-col lg:flex-row gap-5">
+        <div className="lg:w-3/4 grid grid-cols-1 lg:grid-cols-3 gap-5">
           <div className="bg-white rounded-md p-5 flex flex-col justify-between cursor-pointer">
             <div className="flex gap-3 items-center">
               <i class="ri-wallet-3-line ri-2x"></i>
@@ -108,15 +102,15 @@ const Dashboard = () => {
               <i class="ri-medicine-bottle-line ri-2x"></i>
               <div className="flex gap-2">
                 <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg  rtl:flex-row-reverse ">
-                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm ">
+                  <button class="px-3 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm ">
                     Days
                   </button>
 
-                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
+                  <button class="px-3 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
                     Months
                   </button>
 
-                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
+                  <button class="px-3 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
                     Years
                   </button>
                 </div>
@@ -124,7 +118,7 @@ const Dashboard = () => {
             </div>
             <div>
               <p className="text-4xl font-bold">2321</p>
-              <p className=" text-gray-400">Patients</p>
+              <p className=" text-gray-400">Patient Visits</p>
             </div>
           </div>
           <div className="bg-white rounded-md p-5 flex flex-col justify-between cursor-pointer">
@@ -132,15 +126,15 @@ const Dashboard = () => {
               <i class="ri-calendar-2-line ri-2x"></i>
               <div className="flex gap-2">
                 <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg  rtl:flex-row-reverse ">
-                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm ">
+                  <button class="px-2 py-1 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm ">
                     Days
                   </button>
 
-                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
+                  <button class="px-3 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
                     Months
                   </button>
 
-                  <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
+                  <button class="px-3 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
                     Years
                   </button>
                 </div>
@@ -152,7 +146,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="bg-white w-1/4 rounded-md">
+        <div className="bg-white lg:w-1/4 rounded-md">
           <Chart
             options={chart1.options}
             series={chart1.series}

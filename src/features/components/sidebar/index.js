@@ -5,8 +5,10 @@ const Sidebar = () => {
   return (
     <div className="hidden w-72 px-6 pt-4 pb-20 bg-white lg:block">
       <div className="flex items-center text-pink-600 mb-8">
-        <i class="ri-capsule-fill ri-2x"></i>
-        <p className="text-xl font-bold">RS-UKSW</p>
+        <i class="ri-capsule-line ri-2x text-pink-600"></i>
+        <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
+          RS-UKSW
+        </span>
       </div>
       <div
         className="flex flex-col justify-between h-full
@@ -18,7 +20,7 @@ const Sidebar = () => {
             <li>
               <NavLink
                 end
-                to="/doctor"
+                to="/doctor/dashboard"
                 className={({ isActive }) =>
                   !isActive
                     ? "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center transition-all ease-in hover:bg-slate-100"
@@ -31,6 +33,7 @@ const Sidebar = () => {
             </li>
             <li>
               <NavLink
+                end
                 to="/doctor/patient"
                 className={({ isActive }) =>
                   !isActive
@@ -44,6 +47,7 @@ const Sidebar = () => {
             </li>
             <li>
               <NavLink
+                end
                 to="/doctor/appointment"
                 className={({ isActive }) =>
                   !isActive
