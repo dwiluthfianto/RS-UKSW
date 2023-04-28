@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ links }) => {
   return (
     <div className="hidden w-72 px-6 pt-4 pb-20 bg-white lg:block">
       <div className="flex items-center text-pink-600 mb-8">
@@ -17,48 +17,22 @@ const Sidebar = () => {
         <div className="space-y-2">
           <p className="font-medium px-3 text-gray-500">Main Menu</p>
           <ul className="space-y-2">
-            <li>
-              <NavLink
-                end
-                to="/doctor/dashboard"
-                className={({ isActive }) =>
-                  !isActive
-                    ? "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center transition-all ease-in hover:bg-slate-100"
-                    : "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center bg-pink-600 text-white"
-                }
-              >
-                <i class="ri-dashboard-line ri-lg"></i>
-                <p>Dashboard</p>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                end
-                to="/doctor/patient"
-                className={({ isActive }) =>
-                  !isActive
-                    ? "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center transition-all ease-in hover:bg-slate-100"
-                    : "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center bg-pink-600 text-white"
-                }
-              >
-                <i class="ri-medicine-bottle-line ri-lg"></i>
-                <p>Patients</p>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                end
-                to="/doctor/appointment"
-                className={({ isActive }) =>
-                  !isActive
-                    ? "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center transition-all ease-in hover:bg-slate-100"
-                    : "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center bg-pink-600 text-white"
-                }
-              >
-                <i class="ri-calendar-2-line ri-lg"></i>
-                <p>Appointments</p>
-              </NavLink>
-            </li>
+            {links.map((link) => (
+              <li>
+                <NavLink
+                  end
+                  to={link.to}
+                  className={({ isActive }) =>
+                    !isActive
+                      ? "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center transition-all ease-in hover:bg-slate-100"
+                      : "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center bg-pink-600 text-white"
+                  }
+                >
+                  <i className={link.icon}></i>
+                  <p className="capitalize">{link.title}</p>
+                </NavLink>
+              </li>
+            ))}
           </ul>
         </div>
         <div>

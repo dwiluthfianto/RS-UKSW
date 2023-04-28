@@ -163,16 +163,7 @@ const Nav = () => {
                         Service
                       </a>
                     </li>
-                    <li>
-                      <a
-                        href="/"
-                        aria-label="Product pricing"
-                        title="Product pricing"
-                        class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-pink-400"
-                      >
-                        DIKLITLAT
-                      </a>
-                    </li>
+
                     <li>
                       <a
                         href="/"
@@ -199,7 +190,7 @@ const Nav = () => {
                         to="/login"
                         aria-label="Sign in"
                         title="Sign in"
-                        class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-pink-400"
+                        className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-pink-400"
                       >
                         Sign in
                       </NavLink>
@@ -208,7 +199,7 @@ const Nav = () => {
                       <NavLink
                         end
                         to="/signup"
-                        class="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-pink-400 hover:bg-pink-700 focus:shadow-outline focus:outline-none"
+                        className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-pink-400 hover:bg-pink-700 focus:shadow-outline focus:outline-none"
                         aria-label="Sign up"
                         title="Sign up"
                       >

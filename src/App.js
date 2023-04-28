@@ -1,25 +1,80 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { Appointment, Dashboard, LoginDoctor, Patient } from "./pages/Doctor";
+import { Appointment, Dashboard, Patient } from "./pages/Doctor";
 import { Footer, Nav, Sidebar, Topbar } from "./features/components";
-import { Home, LoginUser, Signup } from "./pages/User";
+import { AppointmentForm, Home, LoginUser, Signup } from "./pages/User";
+import {
+  Accounts,
+  AppointmentAdmin,
+  DashboardAdmin,
+  Doctors,
+  PatientAdmin,
+  SignupAccount,
+} from "./pages/Admin";
 
 const Doctor = () => {
+  const links = [
+    {
+      to: "/doctor",
+      title: "dashboard",
+      icon: "ri-dashboard-line ri-lg",
+    },
+    {
+      to: "/doctor/patients",
+      title: "patients",
+      icon: "ri-medicine-bottle-line ri-lg",
+    },
+    {
+      to: "/doctor/appointments",
+      title: "appointment",
+      icon: "ri-calendar-2-line ri-lg",
+    },
+  ];
   return (
     <div className="flex bg-slate-100 h-screen ">
-      <Sidebar />
+      <Sidebar links={links} />
       <div className="w-full overflow-y-scroll">
-        <Topbar />
+        <Topbar links={links} />
         <Outlet />
       </div>
     </div>
   );
 };
 const Admin = () => {
+  const links = [
+    {
+      to: "/admin",
+      title: "dashboard",
+      icon: "ri-dashboard-line ri-lg",
+    },
+    {
+      to: "/admin/patients",
+      title: "patients",
+      icon: "ri-medicine-bottle-line ri-lg",
+    },
+    {
+      to: "/admin/doctors",
+      title: "doctors",
+      icon: "ri-nurse-line ri-lg",
+    },
+    {
+      to: "/admin/appointments",
+      title: "appointment",
+      icon: "ri-calendar-2-line ri-lg",
+    },
+    {
+      to: "/admin/accounts",
+      title: "account",
+      icon: "ri-account-box-line ri-lg",
+    },
+  ];
   return (
-    <>
-      <Sidebar />
-      <Outlet />
-    </>
+    <div className="flex bg-slate-100 h-screen ">
+      <Sidebar links={links} />
+      <div className="w-full overflow-y-scroll">
+        <Topbar links={links} />
+        <Outlet />
+      </div>
+    </div>
   );
 };
 const User = () => {
@@ -38,32 +93,48 @@ const router = createBrowserRouter([
     element: <Doctor />,
     children: [
       {
-        path: "/doctor/dashboard",
+        path: "/doctor",
         element: <Dashboard />,
       },
       {
-        path: "/doctor/patient",
+        path: "/doctor/patients",
         element: <Patient />,
       },
       {
-        path: "/doctor/appointment",
+        path: "/doctor/appointments",
         element: <Appointment />,
       },
     ],
   },
   {
-    path: "/doctor/login",
-    element: <LoginDoctor />,
-  },
-  {
     path: "/admin",
-    element: <Doctor />,
+    element: <Admin />,
     children: [
       {
         path: "/admin",
-        element: <Dashboard />,
+        element: <DashboardAdmin />,
+      },
+      {
+        path: "/admin/patients",
+        element: <PatientAdmin />,
+      },
+      {
+        path: "/admin/appointments",
+        element: <AppointmentAdmin />,
+      },
+      {
+        path: "/admin/accounts",
+        element: <Accounts />,
+      },
+      {
+        path: "/admin/doctors",
+        element: <Doctors />,
       },
     ],
+  },
+  {
+    path: "/admin/signup",
+    element: <SignupAccount />,
   },
   {
     path: "/",
@@ -80,6 +151,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+      {
+        path: "/appointment",
+        element: <AppointmentForm />,
       },
     ],
   },

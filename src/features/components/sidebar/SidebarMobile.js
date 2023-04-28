@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const SidebarMobile = ({ onClick, isActive }) => {
+const SidebarMobile = ({ onClick, isActive, links }) => {
   return (
     <div className={isActive ? "block" : "hidden"}>
       <div className="absolute top-0 inset-0 overflow-hidden z-20">
@@ -24,51 +24,23 @@ const SidebarMobile = ({ onClick, isActive }) => {
             <div className="space-y-2">
               <p className="font-medium px-3 text-gray-500">Main Menu</p>
               <ul className="space-y-2">
-                <li>
-                  <NavLink
-                    end
-                    to="/doctor/dashboard"
-                    className={({ isActive }) =>
-                      !isActive
-                        ? "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center transition-all ease-in hover:bg-slate-100"
-                        : "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center bg-pink-600 text-white"
-                    }
-                    onClick={onClick}
-                  >
-                    <i class="ri-dashboard-line ri-lg"></i>
-                    <p>Dashboard</p>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    end
-                    to="/doctor/patient"
-                    className={({ isActive }) =>
-                      !isActive
-                        ? "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center transition-all ease-in hover:bg-slate-100"
-                        : "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center bg-pink-600 text-white"
-                    }
-                    onClick={onClick}
-                  >
-                    <i class="ri-medicine-bottle-line ri-lg"></i>
-                    <p>Patients</p>
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    end
-                    to="/doctor/appointment"
-                    className={({ isActive }) =>
-                      !isActive
-                        ? "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center transition-all ease-in hover:bg-slate-100"
-                        : "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center bg-pink-600 text-white"
-                    }
-                    onClick={onClick}
-                  >
-                    <i class="ri-calendar-2-line ri-lg"></i>
-                    <p>Appointments</p>
-                  </NavLink>
-                </li>
+                {links.map((link) => (
+                  <li>
+                    <NavLink
+                      end
+                      to={link.to}
+                      className={({ isActive }) =>
+                        !isActive
+                          ? "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center transition-all ease-in hover:bg-slate-100"
+                          : "flex gap-2 font-medium p-3 cursor-pointer rounded-md items-center bg-pink-600 text-white"
+                      }
+                      onClick={onClick}
+                    >
+                      <i className={link.icon}></i>
+                      <p>{link.title}</p>
+                    </NavLink>
+                  </li>
+                ))}
               </ul>
             </div>
             <div>

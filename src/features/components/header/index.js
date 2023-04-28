@@ -1,5 +1,6 @@
 import React from "react";
 import hero from "../../../assets/svg/hero.svg";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -21,16 +22,14 @@ const Header = () => {
           </p>
         </div>
         <div className="flex flex-col items-center justify-center w-full mb-4 md:flex-row">
-          <button
-            type="submit"
+          <NavLink
+            end
+            to="/appointment"
             className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md md:w-auto bg-pink-600 hover:bg-pink-500 active:bg-pink-600 focus:shadow-outline focus:outline-none"
           >
             Make an appointment
-          </button>
+          </NavLink>
         </div>
-        <p className="max-w-md mb-10 text-xs text-gray-600 sm:text-sm md:text-center">
-          Discover and get to know the profiles of our doctors and experts
-        </p>
         <img
           src={hero}
           className="w-full mx-auto md:w-auto md:max-w-sm"

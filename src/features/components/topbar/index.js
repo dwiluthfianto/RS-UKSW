@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import moment from "moment";
 import SidebarMobile from "../sidebar/SidebarMobile";
 
-const Topbar = () => {
+const Topbar = ({ links }) => {
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = () => setSidebar(!sidebar);
   return (
     <>
-      <SidebarMobile isActive={sidebar} onClick={toggleSidebar} />
+      <SidebarMobile isActive={sidebar} onClick={toggleSidebar} links={links} />
       <div className="flex w-full justify-between p-4 bg-white">
         <div className="flex items-center gap-3">
           <div className="flex gap-2 items-center">
