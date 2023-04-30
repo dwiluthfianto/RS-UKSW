@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ModalAccount = ({ state, onClick, id }) => {
+  const [selectedRole, setSelectedRole] = useState("Patient");
+  const [selectSpesialist, setDoctorSpecialist] = useState();
   const radios = ["Patient", "Doctor"];
   const navigate = useNavigate();
   const [inputs, setInputs] = useState([]);
@@ -21,6 +23,14 @@ const ModalAccount = ({ state, onClick, id }) => {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    if (name === "role") {
+      setSelectedRole(value);
+      if (value === "Patient") {
+        setDoctorSpecialist(null);
+      }
+    } else {
+      setDoctorSpecialist(value);
+    }
     setInputs((values) => ({ ...values, [name]: value }));
   };
   const handleSubmit = (event) => {
@@ -35,7 +45,8 @@ const ModalAccount = ({ state, onClick, id }) => {
       });
     console.log(inputs);
   };
-
+  const radioss = ["Cardiologist", "Neurologist", "Oncologist"];
+  const radiossvalue = [220, 221, 222];
   return state ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -133,7 +144,34 @@ const ModalAccount = ({ state, onClick, id }) => {
                     ))}
                   </ul>
                 </div>
-
+                {selectedRole === "Doctor" && (
+                  <div>
+                    <h2 className="text-gray-800 font-medium">
+                      Select doctors specialist
+                    </h2>
+                    <ul className=" flex items-center gap-4">
+                      {/* Radio groups */}
+                      {radioss.map((item, idxx) => (
+                        <li key={idxx} className="flex items-center gap-x-2.5">
+                          <input
+                            type="radio"
+                            name="roless"
+                            value={radiossvalue[idxx]}
+                            id={idxx}
+                            onChange={handleChange}
+                            className="form-radio border-gray-400 text-pink-600 focus:ring-pink-600 duration-150"
+                          />
+                          <label
+                            htmlFor={idxx}
+                            className="text-sm text-gray-700 font-medium"
+                          >
+                            {item}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 <button className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150">
                   Edit
                 </button>
