@@ -1,40 +1,35 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { ModalAccount } from "../../features/components";
-
+import axios from "axios";
+import { useEffect } from "react";
 const Account = () => {
-  const tableItems = [
-    {
-      name: "Liam James",
-      email: "liamjames@example.com",
-      status: "doctor",
-    },
-    {
-      name: "Olivia Emma",
-      email: "oliviaemma@example.com",
-      status: "patient",
-    },
-    {
-      name: "William Benjamin",
-      email: "william.benjamin@example.com",
-      status: "patient",
-    },
-    {
-      name: "Henry Theodore",
-      email: "henrytheodore@example.com",
-      status: "patient",
-    },
-    {
-      name: "Amelia Elijah",
-      email: "amelia.elijah@example.com",
-      status: "doctor",
-    },
-  ];
+  const [users, setUsers] = useState([]);
+  const [id, setId] = useState();
+  useEffect(() => {
+    getUsers();
+  }, []);
+  function getUsers() {
+    const url = `http://localhost/api/users/?acc= ${"list_akun"}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }
+  const handleClick = (id) => {
+    setId(id);
+  };
+  const deleteUser = (id) => {
+    axios.delete(`http://localhost/api/users/${id}`).then(function (response) {
+      console.log(response.data);
+      getUsers();
+    });
+  };
   const labelColors = {
-    doctor: {
+    dokter: {
       color: "text-green-600 bg-green-50",
     },
-    patient: {
+    pasien: {
       color: "text-blue-600 bg-blue-50",
     },
   };
@@ -43,7 +38,7 @@ const Account = () => {
   const onClick = () => setState(false);
   return (
     <div>
-      <ModalAccount state={state} onClick={onClick} />
+      {id && <ModalAccount state={state} onClick={onClick} id={id} />}
       <div className="p-2 md:p-8">
         <div className="max-w-lg">
           <h3 className="text-gray-800 text-4xl font-bold">Accounts</h3>
@@ -86,38 +81,41 @@ const Account = () => {
                 </tr>
               </thead>
               <tbody className="text-gray-600 divide-y">
-                {tableItems.map((item, idx) => (
-                  <tr key={idx} className="divide-x">
+                {users.map((user, key) => (
+                  <tr key={key} className="divide-x">
                     <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
-                      <span>{idx + 1}</span>
-                      {item.name}
+                      <span>{key + 1}</span>
+                      {user.nama}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.email}
+                      {user.email}
                     </td>
 
                     <td className="px-6py-4 whitespace-nowrap text-center">
                       <span
                         className={`py-2 px-3 rounded-full font-semibold text-xs capitalize ${
-                          labelColors[item?.status]?.color || ""
+                          labelColors[user?.status]?.color || ""
                         }`}
                       >
-                        {item.status}
+                        {user.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
                       <button
                         className="p-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-400"
-                        onClick={toggleState}
+                        onClick={() => {
+                          handleClick(user.id);
+                          toggleState();
+                        }}
                       >
                         <i class="ri-edit-box-line ri-xl"></i>
                       </button>
-                      <a
-                        href=""
+                      <button
                         className="p-2 bg-red-600 text-white rounded-md hover:bg-red-400"
+                        onClick={() => deleteUser(user.id)}
                       >
                         <i class="ri-delete-bin-line ri-xl"></i>
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 ))}

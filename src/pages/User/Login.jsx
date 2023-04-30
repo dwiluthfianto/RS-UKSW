@@ -1,10 +1,15 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Login = () => {
   const [inputs, setInputs] = useState([]);
+  const navigate = useNavigate();
   const [hidden] = useState("login");
+  const [stat, setStat] = useState();
+  const [iduser, setIdUser] = useState();
+
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -15,10 +20,29 @@ const Login = () => {
     axios
       .post("http://localhost/api/users/", { ...inputs, cek: hidden })
       .then(function (response) {
-        console.log(response.data);
+        // console.log(response.data);
+        setIdUser(response.data.id);
+        setStat(response.data.status);
+        localStorage.setItem("id_save", iduser);
+        localStorage.setItem("status_save", stat);
       });
-    console.log(inputs);
   };
+  if (stat == "dokter") {
+    localStorage.setItem("id_save", iduser);
+    localStorage.setItem("status_save", stat);
+    navigate("/doctor");
+    window.location.reload();
+  } else if (stat == "admin") {
+    localStorage.setItem("id_save", iduser);
+    localStorage.setItem("status_save", stat);
+    navigate("/admin");
+    window.location.reload();
+  } else if (stat == "pasien") {
+    localStorage.setItem("id_save", iduser);
+    localStorage.setItem("status_save", stat);
+    navigate("/");
+    window.location.reload();
+  }
   return (
     <main className="w-full h-screen flex flex-col items-center mt-12 px-4">
       <div className="max-w-sm w-full text-gray-600 space-y-5">
@@ -116,7 +140,7 @@ const Login = () => {
         <p className="text-center">
           Don't have an account?{" "}
           <a
-            href="javascript:void(0)"
+            href="/signup"
             className="font-medium text-pink-600 hover:text-pink-500"
           >
             Sign up
