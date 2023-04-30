@@ -1,6 +1,10 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 
 const Patient = () => {
+  if (localStorage.getItem("status_save") != "dokter") {
+    return <Navigate to="/" replace />;
+  }
   const tableItems = [
     {
       name: "Liam James",

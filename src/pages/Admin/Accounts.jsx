@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, Navigate } from "react-router-dom";
 import { ModalAccount } from "../../features/components";
 import axios from "axios";
 import { useEffect } from "react";
@@ -36,6 +36,9 @@ const Account = () => {
   const [state, setState] = useState(false);
   const toggleState = () => setState(!state);
   const onClick = () => setState(false);
+  if (localStorage.getItem("status_save") != "admin") {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div>
       {id && <ModalAccount state={state} onClick={onClick} id={id} />}

@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -21,6 +21,9 @@ const Signup = () => {
     console.log(inputs);
   };
   const radios = ["Patient", "Doctor"];
+  if (localStorage.getItem("status_save") != "admin") {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div>
       <div className="max-w-sm  w-full mx-auto flex flex-col items-end  mt-12 ">
