@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const SidebarMobile = ({ onClick, isActive, links }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    localStorage.clear();
+    navigate("/");
+    window.location.reload();
+  };
   return (
     <div className={isActive ? "block" : "hidden"}>
       <div className="absolute top-0 inset-0 overflow-hidden z-20">
@@ -52,10 +59,12 @@ const SidebarMobile = ({ onClick, isActive, links }) => {
                   </a>
                 </li>
                 <li>
-                  <a className="flex gap-2 font-medium p-3 cursor-pointer items-center">
-                    <i class="ri-logout-circle-line ri-lg"></i>
-                    <p>Logout</p>
-                  </a>
+                  <button onClick={handleClick}>
+                    <a className="flex gap-2 font-medium p-3 cursor-pointer items-center">
+                      <i class="ri-logout-circle-line ri-lg"></i>
+                      <p>Logout</p>
+                    </a>
+                  </button>
                 </li>
               </ul>
             </div>

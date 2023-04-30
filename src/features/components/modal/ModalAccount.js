@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 const ModalAccount = ({ state, onClick, id }) => {
   const radios = ["Patient", "Doctor"];
-  const [hidden] = useState("edit_admin");
   const navigate = useNavigate();
   const [inputs, setInputs] = useState([]);
   const [users, setUsers] = useState([]);
