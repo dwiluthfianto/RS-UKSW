@@ -1,5 +1,41 @@
-const ModalAccount = ({ state, onClick }) => {
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+
+const ModalAccount = ({ state, onClick, id }) => {
   const radios = ["Patient", "Doctor"];
+  const [hidden] = useState("edit_admin");
+  const navigate = useNavigate();
+  const [inputs, setInputs] = useState([]);
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    getUsers();
+  }, []);
+  const no = id;
+  const url = `http://localhost/api/users/?id= ${no}`;
+  function getUsers() {
+    axios.get(`http://localhost/api/users/?id=${no}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .put(`http://localhost/api/users/${no}`, { ...inputs, id: no })
+      .then(function (response) {
+        console.log(response.data);
+        onClick = false;
+        window.location.href = "/admin/accounts";
+        window.location.reload();
+      });
+    console.log(inputs);
+  };
 
   return state ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">
@@ -39,11 +75,13 @@ const ModalAccount = ({ state, onClick }) => {
               </button>
             </div>
             <div className="mt-12 max-w-lg mx-auto">
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <label className="font-medium">Full Name</label>
                   <input
                     type="text"
+                    name="nama"
+                    onChange={handleChange}
                     required
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                   />
@@ -53,6 +91,8 @@ const ModalAccount = ({ state, onClick }) => {
                   <label className="font-medium">Email</label>
                   <input
                     type="email"
+                    name="email"
+                    onChange={handleChange}
                     required
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                   />
@@ -62,6 +102,8 @@ const ModalAccount = ({ state, onClick }) => {
                   <div className="relative mt-2">
                     <input
                       type="password"
+                      name="password"
+                      onChange={handleChange}
                       required
                       className="w-full px-3 py-2 appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                     />
@@ -76,6 +118,9 @@ const ModalAccount = ({ state, onClick }) => {
                         <input
                           type="radio"
                           name="role"
+                          value={item}
+                          onChange={handleChange}
+                          required
                           id={idx}
                           className="form-radio border-gray-400 text-pink-600 focus:ring-pink-600 duration-150"
                         />

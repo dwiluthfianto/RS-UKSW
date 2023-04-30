@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Navigate } from "react-router-dom";
 const Doctors = () => {
   const tableItems = [
     {
@@ -33,7 +33,9 @@ const Doctors = () => {
       salary: "$75K",
     },
   ];
-
+  if (localStorage.getItem("status_save") != "admin") {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div className="p-2 md:p-8">
       <div className="max-w-lg">

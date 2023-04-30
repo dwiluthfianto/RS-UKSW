@@ -1,8 +1,38 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [sett, setSett] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    getUsers();
+  }, []);
+  useEffect(() => {
+    if (localStorage.getItem("id_save") != null) {
+      setIsLogged(true);
+    }
+  }, [isLogged, localStorage.getItem("id_save")]);
+  const home = localStorage.getItem("id_save");
+  console.log(home);
+  const url = `http://localhost/api/users/?home=${home}`;
+  function getUsers() {
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+      setSett(true);
+    });
+  }
+  const handleClick = () => {
+    localStorage.clear();
+    setIsLogged(false);
+    navigate("/");
+    window.location.reload();
+  };
 
   return (
     <div class="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
@@ -62,30 +92,68 @@ const Nav = () => {
             </li>
           </ul>
         </div>
-        <ul class="flex items-center hidden space-x-8 lg:flex">
-          <li>
-            <NavLink
-              end
-              to="/login"
-              className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-pink-400"
-              aria-label="Sign in"
-              title="Sign in"
+        {isLogged ? (
+          <div className="relative  gap-2 items-center hidden lg:flex">
+            <div className="w-10 h-10 overflow-hidden rounded-full">
+              <img
+                src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
+                alt="img"
+              />
+            </div>
+            <div>
+              <p className="font-semibold">{users.nama}</p>
+              <p className="text-xs text-gray-500 font-medium">
+                {users.status}
+              </p>
+            </div>
+            <div
+              className="p-1 cursor-pointer bg-slate-100 rounded-md hover:bg-slate-200"
+              onClick={() => setIsMoreOpen(!isMoreOpen)}
             >
-              Sign in
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              end
-              to="/signup"
-              className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-pink-600 hover:bg-pink-500 active:bg-pink-600 focus:shadow-outline focus:outline-none"
-              aria-label="Sign up"
-              title="Sign up"
-            >
-              Sign up
-            </NavLink>
-          </li>
-        </ul>
+              <i class="ri-arrow-drop-down-line ri-lg"></i>
+            </div>
+            {isMoreOpen && (
+              <div className="absolute px-4 py-2 space-y-2 bg-white rounded-md shadow-md top-12 border right-0">
+                <div className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer">
+                  <i class="ri-settings-line"></i>
+                  <p>Setting</p>
+                </div>
+                <hr />
+                <div className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer">
+                  <i class="ri-logout-circle-line"></i>
+                  <button onClick={handleClick}>
+                    <p>Logout</p>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <ul className="flex items-center hidden space-x-8 lg:flex">
+            <li>
+              <NavLink
+                end
+                to="/login"
+                className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-pink-400"
+                aria-label="Sign in"
+                title="Sign in"
+              >
+                Sign in
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                end
+                to="/signup"
+                className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-pink-600 hover:bg-pink-500 active:bg-pink-600 focus:shadow-outline focus:outline-none"
+                aria-label="Sign up"
+                title="Sign up"
+              >
+                Sign up
+              </NavLink>
+            </li>
+          </ul>
+        )}
         <div class="lg:hidden">
           <button
             aria-label="Open Menu"
