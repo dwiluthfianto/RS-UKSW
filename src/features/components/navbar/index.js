@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 const Nav = () => {
@@ -8,6 +8,7 @@ const Nav = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [users, setUsers] = useState([]);
   const [sett, setSett] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     getUsers();
   }, []);
@@ -29,6 +30,8 @@ const Nav = () => {
   const handleClick = () => {
     localStorage.clear();
     setIsLogged(false);
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -97,12 +100,12 @@ const Nav = () => {
                 alt="img"
               />
             </div>
-              <div>
-                <p className="font-semibold">{users.nama}</p>
-                <p className="text-xs text-gray-500 font-medium">
-                  {users.status}
-                </p>
-              </div>
+            <div>
+              <p className="font-semibold">{users.nama}</p>
+              <p className="text-xs text-gray-500 font-medium">
+                {users.status}
+              </p>
+            </div>
             <div
               className="p-1 cursor-pointer bg-slate-100 rounded-md hover:bg-slate-200"
               onClick={() => setIsMoreOpen(!isMoreOpen)}
