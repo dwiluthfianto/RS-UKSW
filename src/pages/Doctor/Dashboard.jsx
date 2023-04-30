@@ -1,7 +1,10 @@
 import React from "react";
 import Chart from "react-apexcharts";
-
+import { Navigate } from "react-router-dom";
 const Dashboard = () => {
+  if (localStorage.getItem("status_save") != "dokter") {
+    return <Navigate to="/" replace />;
+  }
   var chart1 = {
     series: [
       {

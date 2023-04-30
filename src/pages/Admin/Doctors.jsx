@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ModalDoctor } from "../../features/components";
@@ -38,6 +39,9 @@ const Doctors = () => {
   const [state, setState] = useState(false);
   const toggleState = () => setState(!state);
   const onClick = () => setState(false);
+  if (localStorage.getItem("status_save") != "admin") {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div>
       <ModalDoctor state={state} onClick={onClick} />

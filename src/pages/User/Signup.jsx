@@ -1,6 +1,24 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Signup = () => {
+  const [inputs, setInputs] = useState([]);
+  const [hidden] = useState("daftar_pasien");
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post("http://localhost/api/users/", { ...inputs, cek: hidden })
+      .then(function (response) {
+        console.log(response.data);
+      });
+    console.log(inputs);
+  };
   return (
     <main className="w-full h-screen flex flex-col items-center mt-12 px-4">
       <div className="max-w-sm w-full text-gray-600 space-y-5">
@@ -17,11 +35,13 @@ const Signup = () => {
             </h3>
           </div>
         </div>
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="font-medium">Name</label>
             <input
               type="text"
+              name="nama"
+              onChange={handleChange}
               required
               className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
             />
@@ -30,6 +50,8 @@ const Signup = () => {
             <label className="font-medium">Email</label>
             <input
               type="email"
+              name="email"
+              onChange={handleChange}
               required
               className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
             />
@@ -38,11 +60,12 @@ const Signup = () => {
             <label className="font-medium">Password</label>
             <input
               type="password"
+              name="password"
+              onChange={handleChange}
               required
               className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
             />
           </div>
-
           <button className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150">
             Create account
           </button>
@@ -83,7 +106,7 @@ const Signup = () => {
         <p className="text-center">
           Already have an account?{" "}
           <a
-            href="javascript:void(0)"
+            href="/login"
             className="font-medium text-pink-600 hover:text-pink-500"
           >
             Log in

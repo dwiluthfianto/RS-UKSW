@@ -1,7 +1,10 @@
 import React from "react";
 import Chart from "react-apexcharts";
-
+import { Navigate } from "react-router-dom";
 const Dashboard = () => {
+  if (localStorage.getItem("status_save") != "admin") {
+    return <Navigate to="/" replace />;
+  }
   var chart1 = {
     series: [
       {
@@ -72,6 +75,10 @@ const Dashboard = () => {
       salary: "$75K",
     },
   ];
+
+  if (localStorage.getItem("status_save") != "admin") {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div className="p-2 md:p-8 space-y-5">
       <div className="flex flex-col gap-5 lg:flex-row items-center">

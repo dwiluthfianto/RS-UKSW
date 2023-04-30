@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ModalAppointment } from "../../features/components";
-
+import { Navigate } from "react-router-dom";
 const Appointment = () => {
   const tableItems = [
     {
@@ -37,6 +37,9 @@ const Appointment = () => {
   const [state, setState] = useState(false);
   const toggleState = () => setState(!state);
   const onClick = () => setState(false);
+  if (localStorage.getItem("status_save") != "admin") {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div>
       <ModalAppointment state={state} onClick={onClick} />

@@ -1,11 +1,39 @@
-import { useState } from "react";
-import { Link } from "react-scroll";
-import { NavLink } from "react-router-dom";
 
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
-  const [isLogged, setIsLogged] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [sett, setSett] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    getUsers();
+  }, []);
+  useEffect(() => {
+    if (localStorage.getItem("id_save") != null) {
+      setIsLogged(true);
+    }
+  }, [isLogged, localStorage.getItem("id_save")]);
+  const home = localStorage.getItem("id_save");
+  console.log(home);
+  const url = `http://localhost/api/users/?home=${home}`;
+  function getUsers() {
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+      setSett(true);
+    });
+  }
+  const handleClick = () => {
+    localStorage.clear();
+    setIsLogged(false);
+    navigate("/");
+    window.location.reload();
+  };
 
   return (
     <div className="fixed w-full top-0 bg-white z-50 shadow	">
@@ -79,8 +107,10 @@ const Nav = () => {
                 />
               </div>
               <div>
-                <p className="font-semibold">Dwi Luthfianto</p>
-                <p className="text-xs text-gray-500 font-medium">Patient</p>
+               <p className="font-semibold">{users.nama}</p>
+              <p className="text-xs text-gray-500 font-medium">
+                {users.status}
+              </p>
               </div>
               <div
                 className="p-1 cursor-pointer bg-slate-100 rounded-md hover:bg-slate-200"
@@ -101,8 +131,10 @@ const Nav = () => {
                   </div>
                   <hr />
                   <div className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer">
-                    <i class="ri-logout-circle-line"></i>
+                   <i class="ri-logout-circle-line"></i>
+                  <button onClick={handleClick}>
                     <p>Logout</p>
+                  </button>
                   </div>
                 </div>
               )}

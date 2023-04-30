@@ -1,8 +1,17 @@
+
 import React from "react";
 import hero from "../../../assets/svg/hero.svg";
 import { NavLink } from "react-router-dom";
 
 const Header = () => {
+  const [url, setUrl] = useState();
+  useEffect(() => {
+    if (localStorage.getItem("id_save") != null) {
+      setUrl("/appointment");
+    } else {
+      setUrl("/login");
+    }
+  }, [localStorage.getItem("id_save")]);
   return (
     <div id="header">
       <div className="flex flex-col items-center justify-center max-w-2xl px-4 pt-16 mx-auto sm:max-w-xl md:max-w-2xl lg:pt-32 md:px-8">

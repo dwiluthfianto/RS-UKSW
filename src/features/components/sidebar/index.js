@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Sidebar = ({ links }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    localStorage.clear();
+    navigate("/");
+    window.location.reload();
+  };
   return (
     <div className="hidden w-72 px-6 pt-4 pb-20 bg-white lg:block">
       <div className="flex items-center text-pink-600 mb-8">
@@ -46,7 +53,9 @@ const Sidebar = ({ links }) => {
             <li>
               <a className="flex gap-2 font-medium p-3 cursor-pointer items-center">
                 <i class="ri-logout-circle-line ri-lg"></i>
-                <p>Logout</p>
+                <button onClick={handleClick}>
+                  <p>Logout</p>
+                </button>
               </a>
             </li>
           </ul>

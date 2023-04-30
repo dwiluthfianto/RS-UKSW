@@ -1,8 +1,29 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Signup = () => {
+  const [inputs, setInputs] = useState([]);
+  const [hidden] = useState("daftar_admin");
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .post("http://localhost/api/users/", { ...inputs, cek: hidden })
+      .then(function (response) {
+        console.log(response.data);
+      });
+    console.log(inputs);
+  };
   const radios = ["Patient", "Doctor"];
+  if (localStorage.getItem("status_save") != "admin") {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div>
       <div className="max-w-sm  w-full mx-auto flex flex-col items-end  mt-12 ">
@@ -25,11 +46,13 @@ const Signup = () => {
               </h3>
             </div>
           </div>
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="font-medium">Name</label>
               <input
                 type="text"
+                name="nama"
+                onChange={handleChange}
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
               />
@@ -38,6 +61,8 @@ const Signup = () => {
               <label className="font-medium">Email</label>
               <input
                 type="email"
+                name="email"
+                onChange={handleChange}
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
               />
@@ -46,6 +71,8 @@ const Signup = () => {
               <label className="font-medium">Password</label>
               <input
                 type="password"
+                name="password"
+                onChange={handleChange}
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
               />
@@ -60,7 +87,9 @@ const Signup = () => {
                     <input
                       type="radio"
                       name="role"
+                      value={item}
                       id={idx}
+                      onChange={handleChange}
                       className="form-radio border-gray-400 text-pink-600 focus:ring-pink-600 duration-150"
                     />
                     <label

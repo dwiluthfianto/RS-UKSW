@@ -1,5 +1,6 @@
-import React from "react";
 
+import React from "react";
+import { Navigate } from "react-router-dom";
 const Appointment = () => {
   const tableItems = [
     {
@@ -27,7 +28,9 @@ const Appointment = () => {
       schedule: "Sunday, Apr 17, 2023 7:25 pm",
     },
   ];
-
+if (localStorage.getItem("status_save") != "dokter") {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div className="p-2 md:p-8">
       <div className="max-w-lg">
