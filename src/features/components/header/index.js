@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+
+import React from "react";
 import hero from "../../../assets/svg/hero.svg";
 import { NavLink } from "react-router-dom";
 
@@ -11,9 +12,8 @@ const Header = () => {
       setUrl("/login");
     }
   }, [localStorage.getItem("id_save")]);
-
   return (
-    <div>
+    <div id="header">
       <div className="flex flex-col items-center justify-center max-w-2xl px-4 pt-16 mx-auto sm:max-w-xl md:max-w-2xl lg:pt-32 md:px-8">
         <div className="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
           <div>
@@ -33,7 +33,7 @@ const Header = () => {
         <div className="flex flex-col items-center justify-center w-full mb-4 md:flex-row">
           <NavLink
             end
-            to={url}
+            to="/appointment"
             className="inline-flex items-center justify-center w-full h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md md:w-auto bg-pink-600 hover:bg-pink-500 active:bg-pink-600 focus:shadow-outline focus:outline-none"
           >
             Make an appointment

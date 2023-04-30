@@ -4,6 +4,7 @@ import { Footer, Nav, Sidebar, Topbar } from "./features/components";
 import { AppointmentForm, Home, LoginUser, Signup } from "./pages/User";
 import {
   Accounts,
+  AddDoctor,
   AppointmentAdmin,
   DashboardAdmin,
   Doctors,
@@ -135,6 +136,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/signup",
     element: <SignupAccount />,
+  },
+  {
+    path: "/admin/add-doctor",
+    element: <AddDoctor />,
   },
   {
     path: "/",
