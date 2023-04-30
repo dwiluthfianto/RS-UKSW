@@ -23,8 +23,6 @@ const Login = () => {
         // console.log(response.data);
         setIdUser(response.data.id);
         setStat(response.data.status);
-        localStorage.setItem("id_save", iduser);
-        localStorage.setItem("status_save", stat);
       });
   };
   if (stat == "dokter") {
