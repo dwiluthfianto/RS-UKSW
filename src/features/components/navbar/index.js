@@ -91,6 +91,11 @@ const Nav = () => {
               {isMoreOpen && (
                 <div className="absolute px-4 py-2 space-y-2 bg-white rounded-md shadow-md top-12 border right-0">
                   <div className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer">
+                    <i class="ri-file-list-3-line"></i>
+                    <p>Med Record</p>
+                  </div>
+                  <hr />
+                  <div className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer">
                     <i class="ri-settings-line"></i>
                     <p>Setting</p>
                   </div>
@@ -103,7 +108,7 @@ const Nav = () => {
               )}
             </div>
           ) : (
-            <ul className="flex items-center hidden space-x-8 lg:flex">
+            <ul className=" items-center hidden space-x-8 lg:flex">
               <li>
                 <NavLink
                   end
@@ -249,6 +254,9 @@ const Nav = () => {
                               </div>
                             </div>
                             <div className="flex gap-2">
+                              <div className="p-1 cursor-pointer ">
+                                <i class="ri-file-list-3-line ri-lg"></i>
+                              </div>
                               <div className="p-1 cursor-pointer ">
                                 <i class="ri-settings-line ri-lg"></i>
                               </div>
