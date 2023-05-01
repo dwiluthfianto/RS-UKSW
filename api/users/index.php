@@ -191,9 +191,10 @@
             }
             else if(isset($_GET["appos"])){
                 
-                $sql="SELECT pasien.*, dokter.nama as nama_dokter
+                $sql="SELECT pasien.*, dokter.nama as nama_dokter, akun.email
                 FROM pasien
                 JOIN dokter ON pasien.id_dokter = dokter.id
+                JOIN akun ON pasien.id=akun.id
                 WHERE pasien.id_dokter IS NOT NULL";
                 $stmt=$db->prepare($sql);
                 $stmt->execute();
@@ -201,10 +202,16 @@
             }
             else if(isset($_GET["apposs"])){
                 
-                $sql="SELECT dokter.nama, akun.email, spesialis.spesialisasi, dokter.gaji 
+                $sql="SELECT akun.id,dokter.nama, akun.email, spesialis.spesialisasi, dokter.gaji 
                 FROM dokter 
                 JOIN akun ON dokter.id = akun.id 
                 JOIN spesialis ON dokter.id_spesialisasi = spesialis.id_spesialisasi;";
+                $stmt=$db->prepare($sql);
+                $stmt->execute();
+                $users=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            else if(isset($_GET["appoi"])){
+                $sql="SELECT nama FROM dokter";
                 $stmt=$db->prepare($sql);
                 $stmt->execute();
                 $users=$stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -265,6 +272,18 @@
                     $data = ['status' => 0, 'message' => "Gagal Bre update record"];
 
                 }
+            }
+            else if(isset($_GET["appodel"])){
+                $sql="UPDATE pasien SET phone=NULL, age=0, gender=NULL, id_dokter=0, keluhan=NULL WHERE id=:id";
+                $stmt=$db->prepare($sql);
+                $stmt->bindParam(":id",$_GET["appodel"]);
+                if($stmt->execute()){
+                    $data = ['status' => 1, 'message' => "Behasil Bre"];
+                }
+                else{
+                    $data = ['status' => 0, 'message' => "Gagal Bre"];
+                }
+
             }
             else if(isset($_GET["iddoktor"])){
                 $sql="SELECT id from dokter where nama=:nama";
@@ -387,45 +406,45 @@
             break;
         case "DELETE":
             $path = explode('/', $_SERVER['REQUEST_URI']);
-            //var_dump($path);
-            $sql = "SELECT * FROM akun WHERE id=:id";
-            $stmt = $db->prepare($sql);
-            $stmt->bindParam(':id', $path[3]);
-            $stmt->execute();
-            $users = $stmt->fetchObject();
-            if($users->status=="dokter"){
-                $sql="DELETE FROM dokter WHERE id =". $users->id;
-                $stmt2=$db->prepare($sql);
-                if($stmt2->execute()){
-                    $sql="DELETE FROM akun WHERE id = ". $users->id;
-                    $stmt3=$db->prepare($sql);
-                    if($stmt3->execute()){
-                        $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
-                    }
-                    else{
+                $sql = "SELECT * FROM akun WHERE id=:id";
+                $stmt = $db->prepare($sql);
+                $stmt->bindParam(':id', $path[3]);
+                $stmt->execute();
+                $users = $stmt->fetchObject();
+                if($users->status=="dokter"){
+                    $sql="DELETE FROM dokter WHERE id =". $users->id;
+                    $stmt2=$db->prepare($sql);
+                    if($stmt2->execute()){
+                        $sql="DELETE FROM akun WHERE id = ". $users->id;
+                        $stmt3=$db->prepare($sql);
+                        if($stmt3->execute()){
+                            $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
+                        }
+                        else{
+                            $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+                        }
+                    }else{
                         $response = ['status' => 0, 'message' => 'Failed to delete record.'];
                     }
-                }else{
-                    $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+                    $response = ['status' => 0, 'message' => 'Failed to delete record.'. $path[3]];
                 }
-                $response = ['status' => 0, 'message' => 'Failed to delete record.'. $path[3]];
-            }
-            else if($users->status=="pasien"){
-                $sql="DELETE FROM pasien WHERE id =". $users->id;
-                $stmt2=$db->prepare($sql);
-                if($stmt2->execute()){
-                    $sql="DELETE FROM akun WHERE id = ". $users->id;
-                    $stmt3=$db->prepare($sql);
-                    if($stmt3->execute()){
-                        $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
-                    }
-                    else{
+                else if($users->status=="pasien"){
+                    $sql="DELETE FROM pasien WHERE id =". $users->id;
+                    $stmt2=$db->prepare($sql);
+                    if($stmt2->execute()){
+                        $sql="DELETE FROM akun WHERE id = ". $users->id;
+                        $stmt3=$db->prepare($sql);
+                        if($stmt3->execute()){
+                            $response = ['status' => 1, 'message' => 'Record deleted successfully.'];
+                        }
+                        else{
+                            $response = ['status' => 0, 'message' => 'Failed to delete record.'];
+                        }
+                    }else{
                         $response = ['status' => 0, 'message' => 'Failed to delete record.'];
                     }
-                }else{
-                    $response = ['status' => 0, 'message' => 'Failed to delete record.'];
                 }
-            }
+            
             echo json_encode($response);
             break;
     }
