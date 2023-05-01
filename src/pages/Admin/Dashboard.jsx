@@ -124,7 +124,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="flex flex-col lg:flex-row gap-5">
-        <div className=" grid grid-cols-1 w-full lg:grid-cols-4 gap-5">
+        <div className=" grid grid-cols-1 w-full lg:grid-cols-3 gap-5">
           <div className="bg-white rounded-md p-5 gap-5 flex flex-col justify-between cursor-pointer">
             <div className="flex gap-3 items-center">
               <i class="ri-door-line ri-2x"></i>
@@ -143,30 +143,7 @@ const Dashboard = () => {
               <p className=" text-gray-400">Doctors</p>
             </div>
           </div>
-          <div className="bg-white rounded-md p-5 gap-5 flex flex-col justify-between cursor-pointer">
-            <div className="flex justify-between items-center">
-              <i class="ri-medicine-bottle-line ri-2x"></i>
-              <div className="flex gap-2">
-                <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg  rtl:flex-row-reverse ">
-                  <button class="px-3 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm ">
-                    Days
-                  </button>
 
-                  <button class="px-3 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
-                    Months
-                  </button>
-
-                  <button class="px-3 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
-                    Years
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div>
-              <p className="text-4xl font-bold">2321</p>
-              <p className=" text-gray-400">Patient Visits</p>
-            </div>
-          </div>
           <div className="bg-white rounded-md p-5 gap-5 flex flex-col justify-between cursor-pointer">
             <div className="flex justify-between items-center">
               <i class="ri-calendar-2-line ri-2x"></i>
@@ -200,10 +177,12 @@ const Dashboard = () => {
             <table className="w-full table-auto text-sm text-left">
               <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                 <tr className="divide-x">
-                  <th className="py-3 px-6">Username</th>
-                  <th className="py-3 px-6">Email</th>
+                  <th className="py-3 px-6">Name</th>
                   <th className="py-3 px-6">Gender</th>
+                  <th className="py-3 px-6">Age</th>
+                  <th className="py-3 px-6">Phone</th>
                   <th className="py-3 px-6">Doctor</th>
+                  <th className="py-3 px-6">Spesialisasi</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600 divide-y">
@@ -214,13 +193,17 @@ const Dashboard = () => {
                       {user.nama}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {user.email}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
                       {user.gender}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.age}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {user.phone}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {user.nama_dokter}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {user.spesialisasi}
                     </td>
                   </tr>
                 ))}

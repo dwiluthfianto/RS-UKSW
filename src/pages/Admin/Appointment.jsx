@@ -76,10 +76,12 @@ const Appointment = () => {
             <table className="w-full table-auto text-sm text-left">
               <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                 <tr className="divide-x">
-                  <th className="py-3 px-6">Username</th>
-                  <th className="py-3 px-6">Phone</th>
+                  <th className="py-3 px-6">Name</th>
                   <th className="py-3 px-6">Gender</th>
+                  <th className="py-3 px-6">Age</th>
+                  <th className="py-3 px-6">Phone</th>
                   <th className="py-3 px-6">Doctor</th>
+                  <th className="py-3 px-6">Spesialisasi</th>
                   <th className="py-3 px-6">Action</th>
                 </tr>
               </thead>
@@ -91,13 +93,17 @@ const Appointment = () => {
                       {user.nama}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
+                      {user.gender}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.age}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
                       {user.phone}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {user.gender}
+                      {user.nama_dokter}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {user.nama_dokter}
+                      {user.spesialisasi}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
                       <button

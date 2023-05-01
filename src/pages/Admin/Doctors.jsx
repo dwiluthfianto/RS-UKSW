@@ -5,6 +5,7 @@ import { ModalDoctor } from "../../features/components";
 
 const Doctors = () => {
   const [users, setUsers] = useState([]);
+  const [id, setId] = useState();
   useEffect(() => {
     getUsers();
   }, []);
@@ -27,9 +28,12 @@ const Doctors = () => {
   if (localStorage.getItem("status_save") != "admin") {
     return <Navigate to="/" replace />;
   }
+  const handleClick = (id) => {
+    setId(id);
+  };
   return (
     <div>
-      <ModalDoctor state={state} onClick={onClick} />
+      {id && <ModalDoctor state={state} onClick={onClick} id={id} />}
       <div className="p-2 md:p-8">
         <div className="max-w-lg">
           <h3 className="text-gray-800 text-4xl font-bold">Doctors</h3>
@@ -51,86 +55,48 @@ const Doctors = () => {
                 class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5  focus:border-pink-400 dark:focus:border-pink-300 focus:ring-pink-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
-            <div class=" mt-4 text-end md:mt-0">
-              <NavLink
-                end
-                to="/admin/add-doctor"
-                className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150"
-              >
-                Add doctor
-              </NavLink>
-            </div>
           </div>
-
-        </div>
-        <div className="shadow-sm border rounded-lg overflow-x-auto">
-          <table className="w-full table-auto text-sm text-left">
-            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-              <tr className="divide-x">
-                <th className="py-3 px-6">Username</th>
-                <th className="py-3 px-6">Email</th>
-                <th className="py-3 px-6">Spesialisasi</th>
-                <th className="py-3 px-6">Gaji</th>
-                <th className="py-3 px-6">Action</th>
-              </tr>
-            </thead>
-            <tbody className="text-gray-600 divide-y">
-              {users.map((user, idx) => (
-                <tr key={idx} className="divide-x">
-                  <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
-                    <span>{idx + 1}</span>
-                    {user.nama}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {user.spesialisasi}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.gaji}</td>
-                  <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
-                    <a
-                      href=""
-                      className="p-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-400"
-                    >
-                      <i class="ri-edit-box-line ri-xl"></i>
-                    </a>
-                    <button
-                      onClick={() => deleteUser(user.id)}
-                      className="p-2 bg-red-600 text-white rounded-md hover:bg-red-400"
-                    >
-                      <i class="ri-delete-bin-line ri-xl"></i>
-                    </button>
-                  </td>
+          <div className="shadow-sm border rounded-lg overflow-x-auto">
+            <table className="w-full table-auto text-sm text-left">
+              <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                <tr className="divide-x">
+                  <th className="py-3 px-6">Nama</th>
+                  <th className="py-3 px-6">Email</th>
+                  <th className="py-3 px-6">Spesialisasi</th>
+                  <th className="py-3 px-6">Gaji</th>
+                  <th className="py-3 px-6">Action</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600 divide-y">
-                {tableItems.map((item, idx) => (
+                {users.map((user, idx) => (
                   <tr key={idx} className="divide-x">
                     <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
                       <span>{idx + 1}</span>
-                      {item.name}
+                      {user.nama}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.email}
+                      {user.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.position}
+                      {user.spesialisasi}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {item.salary}
-                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">{user.gaji}</td>
                     <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
                       <button
                         className="p-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-400"
-                        onClick={toggleState}
+                        onClick={() => {
+                          handleClick(user.id);
+                          toggleState();
+                        }}
                       >
                         <i class="ri-edit-box-line ri-xl"></i>
                       </button>
-                      <a
-                        href=""
+                      <button
+                        onClick={() => deleteUser(user.id)}
                         className="p-2 bg-red-600 text-white rounded-md hover:bg-red-400"
                       >
                         <i class="ri-delete-bin-line ri-xl"></i>
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 ))}

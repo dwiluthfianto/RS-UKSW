@@ -77,7 +77,7 @@ const Account = () => {
             <table className="w-full table-auto text-sm text-left">
               <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                 <tr className="divide-x">
-                  <th className="py-3 px-6">Username</th>
+                  <th className="py-3 px-6">Name</th>
                   <th className="py-3 px-6">Email</th>
                   <th className="py-3 px-6">Status</th>
                   <th className="py-3 px-6">Action</th>

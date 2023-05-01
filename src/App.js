@@ -1,4 +1,3 @@
-
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Appointment, Dashboard, Patient } from "./pages/Doctor";
 import { Footer, Nav, Sidebar, Topbar } from "./features/components";
@@ -9,7 +8,6 @@ import {
   AppointmentAdmin,
   DashboardAdmin,
   Doctors,
-  PatientAdmin,
   SignupAccount,
 } from "./pages/Admin";
 
@@ -19,11 +17,6 @@ const Doctor = () => {
       to: "/doctor",
       title: "dashboard",
       icon: "ri-dashboard-line ri-lg",
-    },
-    {
-      to: "/doctor/patients",
-      title: "patients",
-      icon: "ri-medicine-bottle-line ri-lg",
     },
     {
       to: "/doctor/appointments",
@@ -47,11 +40,6 @@ const Admin = () => {
       to: "/admin",
       title: "dashboard",
       icon: "ri-dashboard-line ri-lg",
-    },
-    {
-      to: "/admin/patients",
-      title: "patients",
-      icon: "ri-medicine-bottle-line ri-lg",
     },
     {
       to: "/admin/doctors",
@@ -98,10 +86,7 @@ const router = createBrowserRouter([
         path: "/doctor",
         element: <Dashboard />,
       },
-      {
-        path: "/doctor/patients",
-        element: <Patient />,
-      },
+
       {
         path: "/doctor/appointments",
         element: <Appointment />,
@@ -115,10 +100,6 @@ const router = createBrowserRouter([
       {
         path: "/admin",
         element: <DashboardAdmin />,
-      },
-      {
-        path: "/admin/patients",
-        element: <PatientAdmin />,
       },
       {
         path: "/admin/appointments",
@@ -137,10 +118,6 @@ const router = createBrowserRouter([
   {
     path: "/admin/signup",
     element: <SignupAccount />,
-  },
-  {
-    path: "/admin/add-doctor",
-    element: <AddDoctor />,
   },
   {
     path: "/",

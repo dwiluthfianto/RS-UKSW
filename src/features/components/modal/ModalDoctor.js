@@ -1,24 +1,14 @@
+import { useState } from "react";
 import Select from "../select";
 
-const ModalDoctor = ({ state, onClick }) => {
-  const specialistItems = [
-    "Cardiologist",
-    "Neurologist",
-    "Oncologist",
-    "Gastroenterologist",
-    "Orthopedic surgeon",
-    "Pulmonologist",
-    "Dentist",
-    "Nephrologist",
-    "Surgeon",
-    "Radiologist",
-    "Psychiatrist",
-    "Urologist",
-    "Rheumatologist",
-    "Otolaryngologist",
-    "Gynecologist",
-    "Hematologist",
-  ];
+const ModalDoctor = ({ state, onClick, id }) => {
+  const [inputs, setInputs] = useState([]);
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  const specialistItems = ["Cardiologist", "Neurologist", "Oncologist"];
   return state ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -99,6 +89,14 @@ const ModalDoctor = ({ state, onClick }) => {
                 </div>
 
                 <Select items={specialistItems} title="specialists" />
+                <div>
+                  <label className="font-medium">Gaji</label>
+                  <input
+                    type="number"
+                    required
+                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
+                  />
+                </div>
                 <button className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150">
                   Submit
                 </button>

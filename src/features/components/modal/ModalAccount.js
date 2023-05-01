@@ -13,7 +13,6 @@ const ModalAccount = ({ state, onClick, id }) => {
     getUsers();
   }, []);
   const no = id;
-  const url = `http://localhost/api/users/?id= ${no}`;
   function getUsers() {
     axios.get(`http://localhost/api/users/?id=${no}`).then(function (response) {
       console.log(response.data);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Select, Specialist } from "../../features/components";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Appointment = () => {
   const [inputs, setInputs] = useState([]);
@@ -13,6 +13,7 @@ const Appointment = () => {
   const [myArray, setMyArray] = useState([]);
   const specialistItems = ["Cardiologist", "Neurologist", "Oncologist"];
   const id = localStorage.getItem("id_save");
+
   useEffect(() => {
     getUsers();
   }, []);
@@ -65,7 +66,9 @@ const Appointment = () => {
   useEffect(() => {
     setNama(users.nama);
   }, [users.nama]);
-
+  if (localStorage.getItem("status_save") != "pasien") {
+    return <Navigate to="/login" replace />;
+  }
   return (
     <main className="py-14">
       <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">

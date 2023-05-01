@@ -1,34 +1,20 @@
-
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 const Appointment = () => {
-  const tableItems = [
-    {
-      name: "Liam James",
-      gender: "Male",
-      age: 24,
-      email: "liamjames@example.com",
-      phone: "08123234556",
-      schedule: "Sunday, Apr 17, 2023 7:25 pm",
-    },
-    {
-      name: "Liam James",
-      gender: "Male",
-      age: 24,
-      email: "liamjames@example.com",
-      phone: "08123234556",
-      schedule: "Sunday, Apr 17, 2023 7:25 pm",
-    },
-    {
-      name: "Liam James",
-      gender: "Male",
-      age: 24,
-      email: "liamjames@example.com",
-      phone: "08123234556",
-      schedule: "Sunday, Apr 17, 2023 7:25 pm",
-    },
-  ];
-if (localStorage.getItem("status_save") != "dokter") {
+  const [users, setUsers] = useState([]);
+  const id = localStorage.getItem("id_save");
+  useEffect(() => {
+    getUsers();
+  }, []);
+  function getUsers() {
+    const url = `http://localhost/api/users/?appodok=${id}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }
+  if (localStorage.getItem("status_save") != "dokter") {
     return <Navigate to="/" replace />;
   }
   return (
@@ -75,25 +61,32 @@ if (localStorage.getItem("status_save") != "dokter") {
                 <th className="py-3 px-6">Name</th>
                 <th className="py-3 px-6">Gender</th>
                 <th className="py-3 px-6">Age</th>
-                <th className="py-3 px-6">Email</th>
-                <th className="py-3 px-6">Phone Number</th>
-                <th className="py-3 px-6">Schedule</th>
+                <th className="py-3 px-6">Phone</th>
+                <th className="py-3 px-6">Doctor</th>
+                <th className="py-3 px-6">Spesialisasi</th>
                 <th className="py-3 px-6">Action</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-              {tableItems.map((item, idx) => (
+              {users.map((user, idx) => (
                 <tr key={idx} className="divide-x">
                   <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
                     <span>{idx + 1}</span>
-                    {item.name}
+                    {user.nama}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.gender}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.age}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.phone}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.gender}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.age}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.phone}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.schedule}
+                    {user.nama_dokter}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.spesialisasi}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
+                    <button className="w-full px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150">
+                      Check
+                    </button>
                   </td>
                 </tr>
               ))}
