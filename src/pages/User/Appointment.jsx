@@ -1,26 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Select } from "../../features/components";
-
+import { Selected } from "../../features/components";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Appointment = () => {
-  const specialistItems = [
-    "Cardiologist",
-    "Neurologist",
-    "Oncologist",
-    "Gastroenterologist",
-    "Orthopedic surgeon",
-    "Pulmonologist",
-    "Dentist",
-    "Nephrologist",
-    "Surgeon",
-    "Radiologist",
-    "Psychiatrist",
-    "Urologist",
-    "Rheumatologist",
-    "Otolaryngologist",
-    "Gynecologist",
-    "Hematologist",
-  ];
-  const doctorItems = ["dr Dwi Luthfianto", "dr Tresno"];
+  const [inputs, setInputs] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [dok, setDok] = useState([]);
+  const [nama, setNama] = useState();
+  const navigate = useNavigate();
+  const [doctorItems, setDoctorItems] = useState([]);
+  const [myArray, setMyArray] = useState([]);
+  const id = localStorage.getItem("id_save");
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  function getUsers() {
+    axios
+      .get(`http://localhost/api/users/?appo=${id}`)
+      .then(function (response) {
+        console.log(response.data);
+        setUsers(response.data);
+      });
+  }
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .put(`http://localhost/api/users/?appo=${id}`, inputs)
+      .then(function (response) {
+        console.log(response.data);
+        //navigate("/");
+        //window.location.reload();
+      });
+    console.log(inputs);
+  };
+  const handleSelected = (item) => {
+    console.log(item);
+    axios
+      .get(`http://localhost/api/users/?spesial=${item}`)
+      .then(function (response) {
+        console.log(response.data);
+        setDok(response.data);
+      });
+  };
+  const specialistItems = ["Cardiologist", "Neurologist", "Oncologist"];
+  const 
+  useEffect(() => {
+    console.log(dok);
+    setMyArray(Object.values(dok));
+    console.log(myArray);
+  }, [dok]);
+  useEffect(() => {
+    setNama(users.nama);
+  }, [users.nama]);
 
   return (
     <main className="py-14">
@@ -36,11 +74,13 @@ const Appointment = () => {
           </p>
         </div>
         <div className="mt-12 max-w-lg mx-auto">
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="font-medium">Full Name</label>
               <input
                 type="text"
+                name="nama"
+                onChange={handleChange}
                 required
                 className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
               />
@@ -62,9 +102,13 @@ const Appointment = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                  <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-pink-600">
-                    <option>Laki-laki</option>
-                    <option>Perempuan</option>
+                  <select
+                    className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-pink-600"
+                    name="gender"
+                    onChange={handleChange}
+                  >
+                    <option value="Laki-Laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
                   </select>
                 </div>
               </div>
@@ -72,38 +116,42 @@ const Appointment = () => {
                 <label className="font-medium">Age</label>
                 <input
                   type="number"
+                  name="age"
+                  onChange={handleChange}
                   required
                   className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                 />
               </div>
             </div>
             <div>
-              <label className="font-medium">Email</label>
-              <input
-                type="email"
-                required
-                className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
-              />
-            </div>
-            <div>
               <label className="font-medium">Phone number</label>
               <div className="relative mt-2">
                 <input
                   type="number"
+                  name="phone"
+                  onChange={handleChange}
                   required
                   className="w-full px-3 py-2 appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                 />
               </div>
             </div>
-            <Select items={specialistItems} title="specialists" />
-            <Select items={doctorItems} title="doctors" />
-            <Select items={doctorItems} title="Doctor's Schedule" />
-
+            <Select
+              items={specialistItems}
+              title="specialists"
+              getValue={handleSelected}
+            />
+            <Select
+              items={doctorItems}
+              title="doctors"
+              getValue={handleSelected}
+            />
             <div>
               <label className="font-medium capitalize">
                 symptoms & conditions
               </label>
               <textarea
+                name="symptom"
+                onChange={handleChange}
                 required
                 className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
               ></textarea>
