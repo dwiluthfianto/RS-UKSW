@@ -1,39 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ModalAppointment } from "../../features/components";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
 const Appointment = () => {
-  const tableItems = [
-    {
-      name: "Liam James",
-      email: "liamjames@example.com",
-      position: "Software engineer",
-      salary: "$100K",
-    },
-    {
-      name: "Olivia Emma",
-      email: "oliviaemma@example.com",
-      position: "Product designer",
-      salary: "$90K",
-    },
-    {
-      name: "William Benjamin",
-      email: "william.benjamin@example.com",
-      position: "Front-end developer",
-      salary: "$80K",
-    },
-    {
-      name: "Henry Theodore",
-      email: "henrytheodore@example.com",
-      position: "Laravel engineer",
-      salary: "$120K",
-    },
-    {
-      name: "Amelia Elijah",
-      email: "amelia.elijah@example.com",
-      position: "Open source manager",
-      salary: "$75K",
-    },
-  ];
+  const [users, setUsers] = useState([]);
+  const [id, setId] = useState();
+  useEffect(() => {
+    getUsers();
+  }, []);
+  function getUsers() {
+    const url = `http://localhost/api/users/?appos= ${"anjas"}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }
+  const deleteAppo = (id) => {
+    axios
+      .put(`http://localhost/api/users/?appodel=${id}`)
+      .then(function (response) {
+        console.log(response.data);
+        getUsers();
+        window.location.reload();
+      });
+  };
+  const handleClick = (id) => {
+    setId(id);
+  };
   const [state, setState] = useState(false);
   const toggleState = () => setState(!state);
   const onClick = () => setState(false);
@@ -42,7 +35,7 @@ const Appointment = () => {
   }
   return (
     <div>
-      <ModalAppointment state={state} onClick={onClick} />
+      {id && <ModalAppointment state={state} onClick={onClick} id={id} />}
       <div className="p-2 md:p-8">
         <div className="max-w-lg">
           <h3 className="text-gray-800 text-4xl font-bold">Appointments</h3>
@@ -84,41 +77,44 @@ const Appointment = () => {
               <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                 <tr className="divide-x">
                   <th className="py-3 px-6">Username</th>
-                  <th className="py-3 px-6">Email</th>
-                  <th className="py-3 px-6">Position</th>
-                  <th className="py-3 px-6">Salary</th>
+                  <th className="py-3 px-6">Phone</th>
+                  <th className="py-3 px-6">Gender</th>
+                  <th className="py-3 px-6">Doctor</th>
                   <th className="py-3 px-6">Action</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600 divide-y">
-                {tableItems.map((item, idx) => (
+                {users.map((user, idx) => (
                   <tr key={idx} className="divide-x">
                     <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
                       <span>{idx + 1}</span>
-                      {item.name}
+                      {user.nama}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.email}
+                      {user.phone}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.position}
+                      {user.gender}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.salary}
+                      {user.nama_dokter}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
                       <button
                         className="p-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-400"
-                        onClick={toggleState}
+                        onClick={() => {
+                          handleClick(user.id);
+                          toggleState();
+                        }}
                       >
                         <i class="ri-edit-box-line ri-xl"></i>
                       </button>
-                      <a
-                        href=""
+                      <button
+                        onClick={() => deleteAppo(user.id)}
                         className="p-2 bg-red-600 text-white rounded-md hover:bg-red-400"
                       >
                         <i class="ri-delete-bin-line ri-xl"></i>
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 ))}

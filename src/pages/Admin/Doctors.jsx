@@ -1,38 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
+
 const Doctors = () => {
-  const tableItems = [
-    {
-      name: "Liam James",
-      email: "liamjames@example.com",
-      position: "Software engineer",
-      salary: "$100K",
-    },
-    {
-      name: "Olivia Emma",
-      email: "oliviaemma@example.com",
-      position: "Product designer",
-      salary: "$90K",
-    },
-    {
-      name: "William Benjamin",
-      email: "william.benjamin@example.com",
-      position: "Front-end developer",
-      salary: "$80K",
-    },
-    {
-      name: "Henry Theodore",
-      email: "henrytheodore@example.com",
-      position: "Laravel engineer",
-      salary: "$120K",
-    },
-    {
-      name: "Amelia Elijah",
-      email: "amelia.elijah@example.com",
-      position: "Open source manager",
-      salary: "$75K",
-    },
-  ];
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    getUsers();
+  }, []);
+  function getUsers() {
+    const url = `http://localhost/api/users/?apposs= ${"anjas"}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }
+  const deleteUser = (id) => {
+    axios.delete(`http://localhost/api/users/${id}`).then(function (response) {
+      console.log(response.data);
+      getUsers();
+    });
+  };
+
   if (localStorage.getItem("status_save") != "admin") {
     return <Navigate to="/" replace />;
   }
@@ -65,23 +53,23 @@ const Doctors = () => {
               <tr className="divide-x">
                 <th className="py-3 px-6">Username</th>
                 <th className="py-3 px-6">Email</th>
-                <th className="py-3 px-6">Position</th>
-                <th className="py-3 px-6">Salary</th>
+                <th className="py-3 px-6">Spesialisasi</th>
+                <th className="py-3 px-6">Gaji</th>
                 <th className="py-3 px-6">Action</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-              {tableItems.map((item, idx) => (
+              {users.map((user, idx) => (
                 <tr key={idx} className="divide-x">
                   <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
                     <span>{idx + 1}</span>
-                    {item.name}
+                    {user.nama}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.position}
+                    {user.spesialisasi}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.salary}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.gaji}</td>
                   <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
                     <a
                       href=""
@@ -89,12 +77,12 @@ const Doctors = () => {
                     >
                       <i class="ri-edit-box-line ri-xl"></i>
                     </a>
-                    <a
-                      href=""
+                    <button
+                      onClick={() => deleteUser(user.id)}
                       className="p-2 bg-red-600 text-white rounded-md hover:bg-red-400"
                     >
                       <i class="ri-delete-bin-line ri-xl"></i>
-                    </a>
+                    </button>
                   </td>
                 </tr>
               ))}

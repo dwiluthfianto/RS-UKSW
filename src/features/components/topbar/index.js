@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import SidebarMobile from "../sidebar/SidebarMobile";
+import axios from "axios";
 
 const Topbar = ({ links }) => {
   const [sidebar, setSidebar] = useState(false);
+  const [users, setUsers] = useState([]);
   const toggleSidebar = () => setSidebar(!sidebar);
+  const id = localStorage.getItem("id_save");
+  useEffect(() => {
+    getUsers();
+  }, []);
+  function getUsers() {
+    const url = `http://localhost/api/users/?topbar= ${id}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }
   return (
     <>
       <SidebarMobile isActive={sidebar} onClick={toggleSidebar} links={links} />
@@ -24,9 +37,9 @@ const Topbar = ({ links }) => {
               />
             </div>
             <div className="hidden lg:block">
-              <p className="font-semibold">dr. John Doe</p>
+              <p className="font-semibold">{users.nama}</p>
               <p className="text-xs text-gray-500 font-medium">
-                Specialist Dentist
+                {users.status}
               </p>
             </div>
           </div>

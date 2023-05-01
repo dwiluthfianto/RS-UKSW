@@ -1,9 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
 const Dashboard = () => {
-  if (localStorage.getItem("status_save") != "admin") {
-    return <Navigate to="/" replace />;
+  const [users, setUsers] = useState([]);
+  const [doctor, setDoctor] = useState();
+  const [Appo, setAppo] = useState();
+  const [id, setId] = useState();
+  useEffect(() => {
+    getUsers();
+    getDoctor();
+    getAppo();
+  }, []);
+  function getUsers() {
+    const url = `http://localhost/api/users/?appos= ${"anjas"}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }
+  function getDoctor() {
+    const url = `http://localhost/api/users/?appoi= ${"anjas"}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setDoctor(response.data.length);
+    });
+  }
+  function getAppo() {
+    const url = `http://localhost/api/users/?appos= ${"anjas"}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setAppo(response.data.length);
+    });
   }
   var chart1 = {
     series: [
@@ -31,6 +59,9 @@ const Dashboard = () => {
       },
     },
   };
+  if (localStorage.getItem("status_save") != "admin") {
+    return <Navigate to="/" replace />;
+  }
   const tableItems = [
     {
       name: "Liam James",
@@ -108,7 +139,7 @@ const Dashboard = () => {
               <i class="ri-nurse-line ri-2x"></i>
             </div>
             <div>
-              <p className="text-4xl font-bold">2321</p>
+              <p className="text-4xl font-bold">{doctor}</p>
               <p className=" text-gray-400">Doctors</p>
             </div>
           </div>
@@ -156,7 +187,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div>
-              <p className="text-4xl font-bold">21</p>
+              <p className="text-4xl font-bold">{Appo}</p>
               <p className=" text-gray-400">Appointments</p>
             </div>
           </div>
@@ -171,25 +202,25 @@ const Dashboard = () => {
                 <tr className="divide-x">
                   <th className="py-3 px-6">Username</th>
                   <th className="py-3 px-6">Email</th>
-                  <th className="py-3 px-6">Position</th>
-                  <th className="py-3 px-6">Salary</th>
+                  <th className="py-3 px-6">Gender</th>
+                  <th className="py-3 px-6">Doctor</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600 divide-y">
-                {tableItems.map((item, idx) => (
+                {users.map((user, idx) => (
                   <tr key={idx} className="divide-x">
                     <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
                       <span>{idx + 1}</span>
-                      {item.name}
+                      {user.nama}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.email}
+                      {user.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.position}
+                      {user.gender}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.salary}
+                      {user.nama_dokter}
                     </td>
                   </tr>
                 ))}

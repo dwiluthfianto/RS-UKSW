@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Select, Specialist } from "../../features/components";
-
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 const Appointment = () => {
   const [inputs, setInputs] = useState([]);
   const [users, setUsers] = useState([]);
@@ -36,12 +36,11 @@ const Appointment = () => {
       .put(`http://localhost/api/users/?appo=${id}`, inputs)
       .then(function (response) {
         console.log(response.data);
-        if(response.data.berhasil=="oye"){
+        if (response.data.berhasil == "oye") {
           navigate("/");
           window.location.reload();
         }
       });
-    console.log(inputs);
   };
   const handleSelected = (item) => {
     console.log(item);
@@ -113,7 +112,6 @@ const Appointment = () => {
                     className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-pink-600"
                     name="gender"
                     onChange={handleChange}
-                    defaultValue=""
                   >
                     <option value="Laki-Laki">Laki-laki</option>
                     <option value="Perempuan">Perempuan</option>
@@ -160,6 +158,7 @@ const Appointment = () => {
               <textarea
                 name="keluhan"
                 onChange={handleChange}
+                required
                 className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
               ></textarea>
             </div>
