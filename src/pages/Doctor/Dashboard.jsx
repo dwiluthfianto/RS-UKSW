@@ -5,16 +5,17 @@ import { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const [pasien, setPasien] = useState([]);
+  const [totalPasien, setTotalPasien] = useState(0);
 
   useEffect(() => {
-    const fetchPasien = async () => {
-      const response = await axios.get(
-        `http://localhost:8080/api/dokter/index.php?dokter_id=${localStorage.getItem("dokter_id")}`
-      );
+    axios.get(`http://localhost:8080/api/users/?dok=${"list_akun"}`)
+    .then(response => {
       setPasien(response.data);
-    };
-    fetchPasien();
+      setTotalPasien(response.data[0].total_pasien);
+    })
+    .catch(error => console.log(error));
   }, []);
+
   var chart1 = {
     series: [
       {
@@ -41,50 +42,6 @@ const Dashboard = () => {
       },
     },
   };
-  const tableItems = [
-    {
-      name: "Liam James",
-      email: "liamjames@example.com",
-      position: "Software engineer",
-      salary: "$100K",
-    },
-    {
-      name: "Olivia Emma",
-      email: "oliviaemma@example.com",
-      position: "Product designer",
-      salary: "$90K",
-    },
-    {
-      name: "William Benjamin",
-      email: "william.benjamin@example.com",
-      position: "Front-end developer",
-      salary: "$80K",
-    },
-    {
-      name: "Henry Theodore",
-      email: "henrytheodore@example.com",
-      position: "Laravel engineer",
-      salary: "$120K",
-    },
-    {
-      name: "Amelia Elijah",
-      email: "amelia.elijah@example.com",
-      position: "Open source manager",
-      salary: "$75K",
-    },
-    {
-      name: "Amelia Elijah",
-      email: "amelia.elijah@example.com",
-      position: "Open source manager",
-      salary: "$75K",
-    },
-    {
-      name: "Amelia Elijah",
-      email: "amelia.elijah@example.com",
-      position: "Open source manager",
-      salary: "$75K",
-    },
-  ];
   return (
     <div className="p-2 md:p-8 space-y-5">
       <div className="flex flex-col gap-5 lg:flex-row items-center">
@@ -106,7 +63,7 @@ const Dashboard = () => {
               <p className="text-2xl font-bold">Income</p>
             </div>
             <div>
-              <p className="text-4xl font-bold">$3210</p>
+              <p className="text-4xl font-bold">-</p>
               <p className=" text-gray-400">Per Month</p>
             </div>
           </div>
@@ -130,7 +87,9 @@ const Dashboard = () => {
               </div>
             </div>
             <div>
-              <p className="text-4xl font-bold">2321</p>
+              <p className="text-4xl font-bold">
+                {totalPasien}
+              </p>
               <p className=" text-gray-400">Patient Visits</p>
             </div>
           </div>
@@ -154,7 +113,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div>
-              <p className="text-4xl font-bold">21</p>
+              <p className="text-4xl font-bold">{totalPasien}</p>
               <p className=" text-gray-400">Appointments</p>
             </div>
           </div>
@@ -175,9 +134,9 @@ const Dashboard = () => {
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr className="divide-x">
                 <th className="py-3 px-6">Username</th>
-                <th className="py-3 px-6">Email</th>
-                <th className="py-3 px-6">Position</th>
-                <th className="py-3 px-6">Salary</th>
+                <th className="py-3 px-6">Alamat</th>
+                <th className="py-3 px-6">Age</th>
+                <th className="py-3 px-6">Doctor</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
@@ -185,13 +144,13 @@ const Dashboard = () => {
                 <tr key={idx} className="divide-x">
                   <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
                     <span>{idx + 1}</span>
-                    {item.nama}
+                    {item.nama_pasien}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.alamat}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {item.age}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.gender}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.nama_dokter}</td>
                 </tr>
               ))}
             </tbody>

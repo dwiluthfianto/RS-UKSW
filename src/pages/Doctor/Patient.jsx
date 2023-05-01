@@ -1,39 +1,17 @@
 import React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Patient = () => {
-  const tableItems = [
-    {
-      name: "Liam James",
-      email: "liamjames@example.com",
-      position: "Software engineer",
-      salary: "$100K",
-    },
-    {
-      name: "Olivia Emma",
-      email: "oliviaemma@example.com",
-      position: "Product designer",
-      salary: "$90K",
-    },
-    {
-      name: "William Benjamin",
-      email: "william.benjamin@example.com",
-      position: "Front-end developer",
-      salary: "$80K",
-    },
-    {
-      name: "Henry Theodore",
-      email: "henrytheodore@example.com",
-      position: "Laravel engineer",
-      salary: "$120K",
-    },
-    {
-      name: "Amelia Elijah",
-      email: "amelia.elijah@example.com",
-      position: "Open source manager",
-      salary: "$75K",
-    },
-  ];
+  const [pasien, setPasien] = useState([]);
 
+  useEffect(() => {
+    axios.get(`http://localhost:8080/api/users/?do`)
+    .then(response => {
+      setPasien(response.data);
+    })
+    .catch(error => console.log(error));
+  }, []);
   return (
     <div className="p-2 md:p-8">
       <div className="max-w-lg">
@@ -76,23 +54,23 @@ const Patient = () => {
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr className="divide-x">
                 <th className="py-3 px-6">Username</th>
-                <th className="py-3 px-6">Email</th>
-                <th className="py-3 px-6">Position</th>
-                <th className="py-3 px-6">Salary</th>
+                <th className="py-3 px-6">Alamat</th>
+                <th className="py-3 px-6">Age</th>
+                <th className="py-3 px-6">Gender</th>
               </tr>
             </thead>
             <tbody className="text-gray-600 divide-y">
-              {tableItems.map((item, idx) => (
+              {pasien.map((item, idx) => (
                 <tr key={idx} className="divide-x">
                   <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
                     <span>{idx + 1}</span>
-                    {item.name}
+                    {item.nama}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.alamat}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.position}
+                    {item.age}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.salary}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.Gender}</td>
                 </tr>
               ))}
             </tbody>

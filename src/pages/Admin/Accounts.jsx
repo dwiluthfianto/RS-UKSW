@@ -10,7 +10,7 @@ const Account = () => {
     getUsers();
   }, []);
   function getUsers() {
-    const url = `http://localhost/api/users/?acc= ${"list_akun"}`;
+    const url = `http://localhost:8080/api/users/?acc= ${"list_akun"}`;
     axios.get(`${url}`).then(function (response) {
       console.log(response.data);
       setUsers(response.data);
