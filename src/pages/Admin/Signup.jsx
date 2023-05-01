@@ -1,14 +1,25 @@
 import React from "react";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 const Signup = () => {
   const [inputs, setInputs] = useState([]);
+  const [selectedRole, setSelectedRole] = useState("Patient");
+  const [selectSpesialist, setDoctorSpecialist] = useState();
   const [hidden] = useState("daftar_admin");
+  const navigate = useNavigate();
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    if (name === "role") {
+      setSelectedRole(value);
+      if (value === "Patient") {
+        setDoctorSpecialist(null);
+      }
+    } else {
+      setDoctorSpecialist(value);
+    }
     setInputs((values) => ({ ...values, [name]: value }));
   };
   const handleSubmit = (event) => {
@@ -17,10 +28,13 @@ const Signup = () => {
       .post("http://localhost/api/users/", { ...inputs, cek: hidden })
       .then(function (response) {
         console.log(response.data);
+        window.location.reload();
       });
     console.log(inputs);
   };
   const radios = ["Patient", "Doctor"];
+  const radioss = ["Cardiologist", "Neurologist", "Oncologist"];
+  const radiossvalue = [220, 221, 222];
   if (localStorage.getItem("status_save") != "admin") {
     return <Navigate to="/" replace />;
   }
@@ -102,6 +116,34 @@ const Signup = () => {
                 ))}
               </ul>
             </div>
+            {selectedRole === "Doctor" && (
+              <div>
+                <h2 className="text-gray-800 font-medium">
+                  Select doctors specialist
+                </h2>
+                <ul className=" flex items-center gap-4">
+                  {/* Radio groups */}
+                  {radioss.map((item, idxx) => (
+                    <li key={idxx} className="flex items-center gap-x-2.5">
+                      <input
+                        type="radio"
+                        name="roless"
+                        value={radiossvalue[idxx]}
+                        id={idxx}
+                        onChange={handleChange}
+                        className="form-radio border-gray-400 text-pink-600 focus:ring-pink-600 duration-150"
+                      />
+                      <label
+                        htmlFor={idxx}
+                        className="text-sm text-gray-700 font-medium"
+                      >
+                        {item}
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <button className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150">
               Create account
             </button>

@@ -16,6 +16,7 @@ const Signup = () => {
       .post("http://localhost/api/users/", { ...inputs, cek: hidden })
       .then(function (response) {
         console.log(response.data);
+        window.location.reload();
       });
     console.log(inputs);
   };

@@ -51,12 +51,12 @@ const Sidebar = ({ links }) => {
               </a>
             </li>
             <li>
-              <a className="flex gap-2 font-medium p-3 cursor-pointer items-center">
-                <i class="ri-logout-circle-line ri-lg"></i>
-                <button onClick={handleClick}>
+              <button onClick={handleClick} >
+                <a className="flex gap-2 font-medium p-3 cursor-pointer items-center">
+                  <i class="ri-logout-circle-line ri-lg"></i>
                   <p>Logout</p>
-                </button>
-              </a>
+                </a>
+              </button>
             </li>
           </ul>
         </div>

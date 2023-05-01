@@ -20,7 +20,6 @@ const Login = () => {
     axios
       .post("http://localhost/api/users/", { ...inputs, cek: hidden })
       .then(function (response) {
-        // console.log(response.data);
         setIdUser(response.data.id);
         setStat(response.data.status);
       });

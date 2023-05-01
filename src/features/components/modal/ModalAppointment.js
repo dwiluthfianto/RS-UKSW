@@ -1,25 +1,50 @@
+import React, { useState, useEffect } from "react";
 import Select from "../select";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const ModalAppointment = ({ state, onClick }) => {
-  const specialistItems = [
-    "Cardiologist",
-    "Neurologist",
-    "Oncologist",
-    "Gastroenterologist",
-    "Orthopedic surgeon",
-    "Pulmonologist",
-    "Dentist",
-    "Nephrologist",
-    "Surgeon",
-    "Radiologist",
-    "Psychiatrist",
-    "Urologist",
-    "Rheumatologist",
-    "Otolaryngologist",
-    "Gynecologist",
-    "Hematologist",
-  ];
-  const doctorItems = ["dr Dwi Luthfianto", "dr Tresno"];
+const ModalAppointment = ({ state, onClick, id }) => {
+  const [doctorItems, setDoctorItems] = useState([]);
+  const [inputs, setInputs] = useState([]);
+  const navigate = useNavigate();
+  const specialistItems = ["Cardiologist", "Neurologist", "Oncologist"];
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .put(`http://localhost/api/users/?appo=${id}`, inputs)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data.berhasil == "oye") {
+          window.location.reload();
+        }
+      });
+  };
+  const handleSelected = (item) => {
+    console.log(item);
+    axios
+      .get(`http://localhost/api/users/?spesial=${item}`)
+      .then(function (response) {
+        console.log(response.data);
+        setDoctorItems(response.data);
+        console.log(doctorItems.map((doctor) => doctor.nama));
+      });
+  };
+  const submitAppointment = (item) => {
+    axios
+      .put(`http://localhost/api/users/?iddoktor=${item}`, {
+        ...inputs,
+        cek: id,
+      })
+      .then(function (response) {
+        console.log(response.data);
+      });
+  };
   return state ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -58,11 +83,13 @@ const ModalAppointment = ({ state, onClick }) => {
               </button>
             </div>
             <div className="mt-12 max-w-lg mx-auto">
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <label className="font-medium">Full Name</label>
                   <input
                     type="text"
+                    name="nama"
+                    onChange={handleChange}
                     required
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                   />
@@ -84,7 +111,11 @@ const ModalAppointment = ({ state, onClick }) => {
                           clipRule="evenodd"
                         />
                       </svg>
-                      <select className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-pink-600">
+                      <select
+                        className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-pink-600"
+                        name="gender"
+                        onChange={handleChange}
+                      >
                         <option>Laki-laki</option>
                         <option>Perempuan</option>
                       </select>
@@ -94,38 +125,43 @@ const ModalAppointment = ({ state, onClick }) => {
                     <label className="font-medium">Age</label>
                     <input
                       type="number"
+                      name="age"
+                      onChange={handleChange}
                       required
                       className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="font-medium">Email</label>
-                  <input
-                    type="email"
-                    required
-                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
-                  />
-                </div>
-                <div>
                   <label className="font-medium">Phone number</label>
                   <div className="relative mt-2">
                     <input
                       type="number"
+                      name="phone"
+                      onChange={handleChange}
                       required
                       className="w-full px-3 py-2 appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                     />
                   </div>
                 </div>
-                <Select items={specialistItems} title="specialists" />
-                <Select items={doctorItems} title="doctors" />
-                <Select items={doctorItems} title="Doctor's Schedule" />
+                <Select
+                  items={specialistItems}
+                  title="specialists"
+                  getValue={handleSelected}
+                />
+                <Select
+                  items={doctorItems.map((doctor) => doctor.nama)}
+                  title="doctors"
+                  getValue={submitAppointment}
+                />
 
                 <div>
                   <label className="font-medium capitalize">
                     symptoms & conditions
                   </label>
                   <textarea
+                    name="keluhan"
+                    onChange={handleChange}
                     required
                     className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                   ></textarea>

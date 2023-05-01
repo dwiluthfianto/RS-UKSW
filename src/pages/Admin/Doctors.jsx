@@ -1,41 +1,26 @@
-
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { NavLink, Navigate } from "react-router-dom";
 import { ModalDoctor } from "../../features/components";
 
 const Doctors = () => {
-  const tableItems = [
-    {
-      name: "Liam James",
-      email: "liamjames@example.com",
-      position: "Software engineer",
-      salary: "$100K",
-    },
-    {
-      name: "Olivia Emma",
-      email: "oliviaemma@example.com",
-      position: "Product designer",
-      salary: "$90K",
-    },
-    {
-      name: "William Benjamin",
-      email: "william.benjamin@example.com",
-      position: "Front-end developer",
-      salary: "$80K",
-    },
-    {
-      name: "Henry Theodore",
-      email: "henrytheodore@example.com",
-      position: "Laravel engineer",
-      salary: "$120K",
-    },
-    {
-      name: "Amelia Elijah",
-      email: "amelia.elijah@example.com",
-      position: "Open source manager",
-      salary: "$75K",
-    },
-  ];
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    getUsers();
+  }, []);
+  function getUsers() {
+    const url = `http://localhost/api/users/?apposs= ${"anjas"}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }
+  const deleteUser = (id) => {
+    axios.delete(`http://localhost/api/users/${id}`).then(function (response) {
+      console.log(response.data);
+      getUsers();
+    });
+  };
   const [state, setState] = useState(false);
   const toggleState = () => setState(!state);
   const onClick = () => setState(false);
@@ -76,15 +61,45 @@ const Doctors = () => {
               </NavLink>
             </div>
           </div>
-          <div className="shadow-sm border rounded-lg overflow-x-auto">
-            <table className="w-full table-auto text-sm text-left">
-              <thead className="bg-gray-50 text-gray-600 font-medium border-b">
-                <tr className="divide-x">
-                  <th className="py-3 px-6">Name</th>
-                  <th className="py-3 px-6">Gender</th>
-                  <th className="py-3 px-6">Age</th>
-                  <th className="py-3 px-6">Specialist</th>
-                  <th className="py-3 px-6">Action</th>
+
+        </div>
+        <div className="shadow-sm border rounded-lg overflow-x-auto">
+          <table className="w-full table-auto text-sm text-left">
+            <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+              <tr className="divide-x">
+                <th className="py-3 px-6">Username</th>
+                <th className="py-3 px-6">Email</th>
+                <th className="py-3 px-6">Spesialisasi</th>
+                <th className="py-3 px-6">Gaji</th>
+                <th className="py-3 px-6">Action</th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-600 divide-y">
+              {users.map((user, idx) => (
+                <tr key={idx} className="divide-x">
+                  <td className="px-6 py-4 whitespace-nowrap flex items-center gap-x-6">
+                    <span>{idx + 1}</span>
+                    {user.nama}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {user.spesialisasi}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{user.gaji}</td>
+                  <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center gap-3">
+                    <a
+                      href=""
+                      className="p-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-400"
+                    >
+                      <i class="ri-edit-box-line ri-xl"></i>
+                    </a>
+                    <button
+                      onClick={() => deleteUser(user.id)}
+                      className="p-2 bg-red-600 text-white rounded-md hover:bg-red-400"
+                    >
+                      <i class="ri-delete-bin-line ri-xl"></i>
+                    </button>
+                  </td>
                 </tr>
               </thead>
               <tbody className="text-gray-600 divide-y">

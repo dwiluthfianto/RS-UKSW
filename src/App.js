@@ -1,3 +1,4 @@
+
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Appointment, Dashboard, Patient } from "./pages/Doctor";
 import { Footer, Nav, Sidebar, Topbar } from "./features/components";

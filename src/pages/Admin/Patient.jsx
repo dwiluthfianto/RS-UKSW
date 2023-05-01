@@ -1,6 +1,19 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
 const Patient = () => {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    getUsers();
+  }, []);
+  function getUsers() {
+    const url = `http://localhost/api/users/?acc= ${"list_akun"}`;
+    axios.get(`${url}`).then(function (response) {
+      console.log(response.data);
+      setUsers(response.data);
+    });
+  }
   const tableItems = [
     {
       name: "Liam James",

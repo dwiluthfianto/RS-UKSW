@@ -80,7 +80,7 @@ const Patient = () => {
             <thead className="bg-gray-50 text-gray-600 font-medium border-b">
               <tr className="divide-x">
                 <th className="py-3 px-6">Username</th>
-                <th className="py-3 px-6">Email</th>
+                <th className="py-3 px-6">Phone Number</th>
                 <th className="py-3 px-6">Position</th>
                 <th className="py-3 px-6">Salary</th>
               </tr>
