@@ -65,6 +65,7 @@ const SidebarMobile = ({ onClick, isActive, links }) => {
                       <p>Logout</p>
                     </a>
                   </button>
+
                 </li>
               </ul>
             </div>
