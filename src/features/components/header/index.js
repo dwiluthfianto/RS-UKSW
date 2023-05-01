@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import hero from "../../../assets/svg/hero.svg";
 import { NavLink } from "react-router-dom";
 

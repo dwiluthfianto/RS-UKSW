@@ -76,7 +76,7 @@ const Dashboard = () => {
     },
   ];
 
-  if (localStorage.getItem("status_save") != "admin") {
+  if (localStorage.getItem("status_save") !== "admin") {
     return <Navigate to="/" replace />;
   }
   return (

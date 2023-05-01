@@ -1,5 +1,5 @@
-
 import { useState } from "react";
+import { Link } from "react-scroll";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
@@ -36,7 +36,7 @@ const Nav = () => {
   };
 
   return (
-    <div className="fixed w-full top-0 bg-white z-50 shadow	">
+    <div className="w-full  bg-white  shadow	">
       <div className=" px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
         <div className="  flex items-center justify-between">
           <div className="flex items-center">
@@ -52,7 +52,7 @@ const Nav = () => {
               </span>
             </a>
             <ul className="items-center hidden space-x-8 lg:flex">
-              <li className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-pink-400">
+              <li className="font-medium tracking-wide text-gray-700 transition-colors duration-200 cursor-pointer hover:text-pink-400">
                 <Link
                   to="step"
                   spy={true}
@@ -63,7 +63,7 @@ const Nav = () => {
                   How to use
                 </Link>
               </li>
-              <li className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-pink-400">
+              <li className="font-medium tracking-wide text-gray-700 transition-colors duration-200 cursor-pointer hover:text-pink-400">
                 <Link
                   to="specialist"
                   spy={true}
@@ -74,7 +74,7 @@ const Nav = () => {
                   Specialist
                 </Link>
               </li>
-              <li className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-pink-400">
+              <li className="font-medium tracking-wide text-gray-700 transition-colors duration-200 cursor-pointer hover:text-pink-400">
                 <Link
                   to="news"
                   spy={true}
@@ -85,7 +85,7 @@ const Nav = () => {
                   Health News & Articles
                 </Link>
               </li>
-              <li className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-pink-400">
+              <li className="font-medium tracking-wide text-gray-700 transition-colors duration-200 cursor-pointer hover:text-pink-400">
                 <Link
                   to="faq"
                   spy={true}
@@ -107,10 +107,10 @@ const Nav = () => {
                 />
               </div>
               <div>
-               <p className="font-semibold">{users.nama}</p>
-              <p className="text-xs text-gray-500 font-medium">
-                {users.status}
-              </p>
+                <p className="font-semibold">{users.nama}</p>
+                <p className="text-xs text-gray-500 font-medium">
+                  {users.status}
+                </p>
               </div>
               <div
                 className="p-1 cursor-pointer bg-slate-100 rounded-md hover:bg-slate-200"
@@ -119,7 +119,7 @@ const Nav = () => {
                 <i class="ri-arrow-drop-down-line ri-lg"></i>
               </div>
               {isMoreOpen && (
-                <div className="absolute px-4 py-2 space-y-2 bg-white rounded-md shadow-md top-12 border right-0">
+                <div className="absolute w-48 px-4 py-2 space-y-2 bg-white rounded-md shadow-md top-12 border right-0">
                   <div className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer">
                     <i class="ri-file-list-3-line"></i>
                     <p>Med Record</p>
@@ -130,11 +130,13 @@ const Nav = () => {
                     <p>Setting</p>
                   </div>
                   <hr />
-                  <div className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer">
-                   <i class="ri-logout-circle-line"></i>
-                  <button onClick={handleClick}>
+                  <div
+                    className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer"
+                    onClick={handleClick}
+                  >
+                    <i class="ri-logout-circle-line"></i>
+
                     <p>Logout</p>
-                  </button>
                   </div>
                 </div>
               )}
@@ -279,9 +281,9 @@ const Nav = () => {
                                 />
                               </div>
                               <div>
-                                <p className="font-semibold">Dwi Luthfianto</p>
+                                <p className="font-semibold">{users.nama}</p>
                                 <p className="text-xs text-gray-500 font-medium">
-                                  Patient
+                                  {users.status}
                                 </p>
                               </div>
                             </div>
@@ -292,7 +294,10 @@ const Nav = () => {
                               <div className="p-1 cursor-pointer ">
                                 <i class="ri-settings-line ri-lg"></i>
                               </div>
-                              <div className="p-1 text-red-500 cursor-pointer ">
+                              <div
+                                className="p-1 text-red-500 cursor-pointer "
+                                onClick={handleClick}
+                              >
                                 <i class="ri-logout-circle-line ri-lg"></i>
                               </div>
                             </div>

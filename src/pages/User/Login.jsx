@@ -25,17 +25,17 @@ const Login = () => {
         setStat(response.data.status);
       });
   };
-  if (stat == "dokter") {
+  if (stat === "dokter") {
     localStorage.setItem("id_save", iduser);
     localStorage.setItem("status_save", stat);
     navigate("/doctor");
     window.location.reload();
-  } else if (stat == "admin") {
+  } else if (stat === "admin") {
     localStorage.setItem("id_save", iduser);
     localStorage.setItem("status_save", stat);
     navigate("/admin");
     window.location.reload();
-  } else if (stat == "pasien") {
+  } else if (stat === "pasien") {
     localStorage.setItem("id_save", iduser);
     localStorage.setItem("status_save", stat);
     navigate("/");
