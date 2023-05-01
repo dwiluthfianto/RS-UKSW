@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Select = ({ items, title, getValue }) => {
+const Selected = ({ items, title }) => {
   const [selectedItem, setSelectedItem] = useState({
     item: null,
     idx: null,
@@ -18,14 +18,6 @@ const Select = ({ items, title, getValue }) => {
         el.classList.add("hidden");
       }
     });
-  };
-  const handleSelect = (item, idx) => {
-    setSelectedItem({
-      item,
-      idx,
-    });
-    setState(false);
-    getValue(item);
   };
   return (
     <div>
@@ -86,7 +78,13 @@ const Select = ({ items, title, getValue }) => {
                 {items.map((el, idx) => (
                   <li
                     key={idx}
-                    onClick={() => handleSelect(el, idx)}
+                    onClick={() => {
+                      setSelectedItem({
+                        item: el,
+                        idx,
+                      });
+                      setState(false);
+                    }}
                     role="option"
                     className={`${
                       selectedItem.idx === idx ? "text-pink-600 bg-pink-50" : ""
@@ -122,4 +120,4 @@ const Select = ({ items, title, getValue }) => {
   );
 };
 
-export default Select;
+export default Selected;
