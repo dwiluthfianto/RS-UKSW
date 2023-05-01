@@ -6,7 +6,7 @@ const Appointment = () => {
   const [pasien, setPasien] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/users/?dok=${"list_akun"}`)
+    axios.get(`http://localhost/api/users/?dok=${"list_akun"}`)
     .then(response => {
       setPasien(response.data);
     })

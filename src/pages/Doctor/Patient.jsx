@@ -6,35 +6,27 @@ const Patient = () => {
   const [pasien, setPasien] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/users/?do`)
-    .then(response => {
-      setPasien(response.data);
-    })
-    .catch(error => console.log(error));
+    axios
+      .get(`http://localhost/api/users/?do`)
+      .then((response) => {
+        setPasien(response.data);
+      })
+      .catch((error) => console.log(error));
   }, []);
   return (
     <div className="p-2 md:p-8">
       <div className="max-w-lg">
         <h3 className="text-gray-800 text-4xl font-bold">Patients</h3>
-        <p className="text-gray-600 mt-2">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.
-        </p>
+        <p className="text-gray-600 mt-2">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
       </div>
       <div className="mt-12 bg-white p-5 rounded-lg space-y-5">
         <div class=" md:flex md:items-center md:justify-between">
           <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg  rtl:flex-row-reverse ">
-            <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm ">
-              View all
-            </button>
+            <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm ">View all</button>
 
-            <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
-              Monitored
-            </button>
+            <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">Monitored</button>
 
-            <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">
-              Unmonitored
-            </button>
+            <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm  hover:bg-gray-100">Unmonitored</button>
           </div>
 
           <div class="relative flex items-center mt-4 md:mt-0">
@@ -67,9 +59,7 @@ const Patient = () => {
                     {item.nama}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.alamat}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.age}
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.age}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.Gender}</td>
                 </tr>
               ))}
@@ -82,47 +72,19 @@ const Patient = () => {
           </div>
 
           <div class="flex items-center mt-4 gap-x-4 sm:mt-0">
-            <a
-              href="#"
-              class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100 "
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-5 h-5 rtl:-scale-x-100"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-                />
+            <a href="#" class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100 ">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
               </svg>
 
               <span>previous</span>
             </a>
 
-            <a
-              href="#"
-              class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100 "
-            >
+            <a href="#" class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md sm:w-auto gap-x-2 hover:bg-gray-100 ">
               <span>Next</span>
 
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-5 h-5 rtl:-scale-x-100"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
               </svg>
             </a>
           </div>

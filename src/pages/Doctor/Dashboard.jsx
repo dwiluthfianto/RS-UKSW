@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 const Dashboard = () => {
   const [pasien, setPasien] = useState([]);
   const [totalPasien, setTotalPasien] = useState(0);
+  const [totalAppo, setTotalAppo] = useState(0);
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/users/?dok=${"list_akun"}`)
+    axios.get(`http://localhost/api/users/?dok=${"list_akun"}`)
     .then(response => {
       setPasien(response.data);
       setTotalPasien(response.data[0].total_pasien);
+      setTotalAppo(response.data[0].total_appo);
     })
     .catch(error => console.log(error));
   }, []);
@@ -113,7 +115,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div>
-              <p className="text-4xl font-bold">{totalPasien}</p>
+              <p className="text-4xl font-bold">{totalAppo}</p>
               <p className=" text-gray-400">Appointments</p>
             </div>
           </div>
