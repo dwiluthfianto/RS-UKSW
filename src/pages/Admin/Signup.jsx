@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -8,6 +8,7 @@ const Signup = () => {
   const [selectedRole, setSelectedRole] = useState("Patient");
   const [selectSpesialist, setDoctorSpecialist] = useState();
   const [hidden] = useState("daftar_admin");
+  const navigate = useNavigate();
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -27,6 +28,7 @@ const Signup = () => {
       .post("http://localhost/api/users/", { ...inputs, cek: hidden })
       .then(function (response) {
         console.log(response.data);
+        window.location.reload();
       });
     console.log(inputs);
   };

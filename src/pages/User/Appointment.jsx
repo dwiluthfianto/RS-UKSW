@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Select } from "../../features/components";
+import { Select, Specialist } from "../../features/components";
+
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Appointment = () => {
   const [inputs, setInputs] = useState([]);
   const [users, setUsers] = useState([]);
+  const [dok, setDok] = useState([]);
   const [nama, setNama] = useState();
   const navigate = useNavigate();
+  const [doctorItems, setDoctorItems] = useState([]);
+  const [myArray, setMyArray] = useState([]);
+  const specialistItems = ["Cardiologist", "Neurologist", "Oncologist"];
   const id = localStorage.getItem("id_save");
   useEffect(() => {
     getUsers();
   }, []);
+
   function getUsers() {
     axios
       .get(`http://localhost/api/users/?appo=${id}`)
@@ -30,16 +36,33 @@ const Appointment = () => {
       .put(`http://localhost/api/users/?appo=${id}`, inputs)
       .then(function (response) {
         console.log(response.data);
-        navigate("/");
-        window.location.reload();
+        if(response.data.berhasil=="oye"){
+          navigate("/");
+          window.location.reload();
+        }
       });
     console.log(inputs);
   };
   const handleSelected = (item) => {
-    console.log(`Selected item: ${item}`);
+    console.log(item);
+    axios
+      .get(`http://localhost/api/users/?spesial=${item}`)
+      .then(function (response) {
+        console.log(response.data);
+        setDoctorItems(response.data);
+        console.log(doctorItems.map((doctor) => doctor.nama));
+      });
   };
-  const specialistItems = ["Cardiologist", "Neurologist", "Oncologist"];
-  const doctorItems = ["dr Dwi Luthfianto", "dr Tresno"];
+  const submitAppointment = (item) => {
+    axios
+      .put(`http://localhost/api/users/?iddoktor=${item}`, {
+        ...inputs,
+        cek: id,
+      })
+      .then(function (response) {
+        console.log(response.data);
+      });
+  };
   useEffect(() => {
     setNama(users.nama);
   }, [users.nama]);
@@ -89,8 +112,8 @@ const Appointment = () => {
                   <select
                     className="w-full p-2.5 text-gray-500 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-pink-600"
                     name="gender"
-                    value="Laki-Laki"
                     onChange={handleChange}
+                    defaultValue=""
                   >
                     <option value="Laki-Laki">Laki-laki</option>
                     <option value="Perempuan">Perempuan</option>
@@ -126,28 +149,24 @@ const Appointment = () => {
               getValue={handleSelected}
             />
             <Select
-              items={doctorItems}
+              items={doctorItems.map((doctor) => doctor.nama)}
               title="doctors"
-              getValue={handleSelected}
+              getValue={submitAppointment}
             />
-            <Select
-              items={doctorItems}
-              title="Doctor's Schedule"
-              getValue={handleSelected}
-            />
-
             <div>
               <label className="font-medium capitalize">
                 symptoms & conditions
               </label>
               <textarea
-                name="symptom"
+                name="keluhan"
                 onChange={handleChange}
-                required
                 className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
               ></textarea>
             </div>
-            <button className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150">
+            <button
+              className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150"
+              onClick={submitAppointment}
+            >
               Submit
             </button>
           </form>

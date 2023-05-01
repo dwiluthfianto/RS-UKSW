@@ -86,7 +86,6 @@ const User = () => {
     </>
   );
 };
-
 const router = createBrowserRouter([
   {
     path: "/doctor",
