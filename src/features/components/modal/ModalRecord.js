@@ -1,36 +1,38 @@
 import { useEffect, useState } from "react";
 import Select from "../select";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 
-const ModalDoctor = ({ state, onClick, id }) => {
+const ModalRecord = ({ state, onClick, id }) => {
   const [inputs, setInputs] = useState([]);
-  const [spesialisItem, setSpesialisItem] = useState([]);
+  const [users, setUsers] = useState([]);
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
-  const items = spesialisItem.map((item) => item.spesialisasi);
-  function getSpesialis() {
+  function getUsers() {
     axios
-      .get(`http://localhost/api/users/?spesialis`)
+      .get(`http://localhost/api/users/?appodokmod=${id}`)
       .then(function (response) {
-        setSpesialisItem(response.data);
+        console.log(response.data);
+        setUsers(response.data);
       });
   }
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .put(`http://localhost/api/users/?updok=${id}`, inputs)
+      .put(`http://localhost/api/users/?medrecord=${users.id_record}`, inputs)
       .then(function (response) {
         console.log(response.data);
         if (response.data.berhasil == "oye") {
+          Navigate("/");
           window.location.reload();
         }
       });
   };
   useEffect(() => {
-    getSpesialis();
+    getUsers();
   }, []);
 
   return state ? (
@@ -45,12 +47,34 @@ const ModalDoctor = ({ state, onClick, id }) => {
             <div className="flex items-start justify-between">
               <div>
                 <h4 className="text-lg font-medium text-gray-800">
-                  Edit biodata doctor
+                  Medical Record
                 </h4>
-                <p className="text-[15px] text-gray-600 mt-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore.{" "}
-                </p>
+                <div className="space-y-2">
+                  <p>
+                    <span>Nama : </span>
+                    {users.nama}
+                  </p>
+                  <p>
+                    <span>Gender : </span>
+                    {users.gender}
+                  </p>
+                  <p>
+                    <span>Age : </span>
+                    {users.age}
+                  </p>
+                  <p>
+                    <span>Phone : </span>
+                    {users.phone}
+                  </p>
+                  <p>
+                    <span>Email : </span>
+                    {users.email}
+                  </p>
+                  <p>
+                    <span>Keluhan : </span>
+                    {users.keluhan}
+                  </p>
+                </div>
               </div>
               <button
                 className="p-2 text-gray-400 rounded-md hover:bg-gray-100"
@@ -71,30 +95,25 @@ const ModalDoctor = ({ state, onClick, id }) => {
               </button>
             </div>
             <div className="mt-12 max-w-lg mx-auto">
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form className="space-y-5" onSubmit={handleSubmit}>
                 <div>
-                  <label className="font-medium">Full Name</label>
+                  <label className="font-medium">Obat</label>
                   <input
                     type="text"
+                    name="obat"
                     required
                     onChange={handleChange}
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
                   />
                 </div>
-
-                <Select
-                  items={items}
-                  title="specialists"
-                  getValue={handleChange}
-                />
                 <div>
-                  <label className="font-medium">Gaji</label>
-                  <input
-                    type="number"
-                    required
+                  <label className="font-medium capitalize">Diagnosis</label>
+                  <textarea
+                    name="diagnosa"
                     onChange={handleChange}
-                    className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
-                  />
+                    required
+                    className="w-full mt-2 h-36 px-3 py-2 resize-none appearance-none bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
+                  ></textarea>
                 </div>
                 <button className="w-full px-4 py-2 text-white font-medium bg-pink-600 hover:bg-pink-500 active:bg-pink-600 rounded-lg duration-150">
                   Submit
@@ -110,4 +129,4 @@ const ModalDoctor = ({ state, onClick, id }) => {
   );
 };
 
-export default ModalDoctor;
+export default ModalRecord;

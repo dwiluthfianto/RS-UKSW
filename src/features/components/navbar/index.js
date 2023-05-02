@@ -120,10 +120,15 @@ const Nav = () => {
               </div>
               {isMoreOpen && (
                 <div className="absolute w-48 px-4 py-2 space-y-2 bg-white rounded-md shadow-md top-12 border right-0">
-                  <div className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer">
+                  <NavLink
+                    end
+                    to="/medrecord"
+                    onClick={() => setIsMoreOpen(!isMoreOpen)}
+                    className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer"
+                  >
                     <i class="ri-file-list-3-line"></i>
                     <p>Med Record</p>
-                  </div>
+                  </NavLink>
                   <hr />
                   <div className="flex gap-2 px-4 py-2 font-medium rounded-md hover:bg-slate-100 cursor-pointer">
                     <i class="ri-settings-line"></i>
@@ -287,7 +292,7 @@ const Nav = () => {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex gap-2">
+                            <NavLink end to="/medrecord" className="flex gap-2">
                               <div className="p-1 cursor-pointer ">
                                 <i class="ri-file-list-3-line ri-lg"></i>
                               </div>
@@ -300,7 +305,7 @@ const Nav = () => {
                               >
                                 <i class="ri-logout-circle-line ri-lg"></i>
                               </div>
-                            </div>
+                            </NavLink>
                           </li>
                         </>
                       ) : (

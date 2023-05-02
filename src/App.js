@@ -1,7 +1,13 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Appointment, Dashboard, Patient } from "./pages/Doctor";
 import { Footer, Nav, Sidebar, Topbar } from "./features/components";
-import { AppointmentForm, Home, LoginUser, Signup } from "./pages/User";
+import {
+  AppointmentForm,
+  Home,
+  LoginUser,
+  MedRecord,
+  Signup,
+} from "./pages/User";
 import {
   Accounts,
   AddDoctor,
@@ -138,6 +144,10 @@ const router = createBrowserRouter([
       {
         path: "/appointment",
         element: <AppointmentForm />,
+      },
+      {
+        path: "/medrecord",
+        element: <MedRecord />,
       },
     ],
   },
