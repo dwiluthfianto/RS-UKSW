@@ -20,7 +20,6 @@ const ModalRecord = ({ state, onClick, id }) => {
       });
   }
   const handleSubmit = (event) => {
-    event.preventDefault();
     axios
       .put(`http://localhost/api/users/?medrecord=${users.id_record}`, inputs)
       .then(function (response) {

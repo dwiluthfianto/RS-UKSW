@@ -33,7 +33,6 @@ const ModalAccount = ({ state, onClick, id }) => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
   const handleSubmit = (event) => {
-    event.preventDefault();
     axios
       .put(`http://localhost/api/users/${no}`, { ...inputs, id: no })
       .then(function (response) {

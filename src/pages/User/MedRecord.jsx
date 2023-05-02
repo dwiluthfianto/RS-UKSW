@@ -84,7 +84,7 @@ const MedRecord = () => {
               <div className="text-blue-600">
                 <p className="mt-2 sm:text-sm">
                   Tolong tunggu Medical Record, pemberitahuan medical record
-                  telah keluar bisa di cek melalui email yang telah di daftar
+                  telah keluar bisa di cek melalui email yang telah di daftarkan
                 </p>
                 <div className="mt-2">
                   <a
