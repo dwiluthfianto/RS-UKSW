@@ -13,6 +13,7 @@ const Dashboard = () => {
     const url = `http://localhost/api/users/?appodok=${id}`;
     axios.get(`${url}`).then(function (response) {
       setUsers(response.data);
+      console.log(response.data);
       setAppo(response.data.length);
     });
   }
@@ -77,7 +78,9 @@ const Dashboard = () => {
               <p className="text-2xl font-bold">Income</p>
             </div>
             <div>
-              <p className="text-4xl font-bold">$3210</p>
+              <p className="text-4xl font-bold">
+                $ {users.map((doctor) => doctor.gaji)}
+              </p>
               <p className=" text-gray-400">Per Month</p>
             </div>
           </div>

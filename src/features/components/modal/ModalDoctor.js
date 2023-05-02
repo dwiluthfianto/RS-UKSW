@@ -5,6 +5,7 @@ import axios from "axios";
 const ModalDoctor = ({ state, onClick, id }) => {
   const [inputs, setInputs] = useState([]);
   const [spesialisItem, setSpesialisItem] = useState([]);
+  const specialistItems = ["Cardiologist", "Neurologist", "Oncologist"];
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -24,9 +25,17 @@ const ModalDoctor = ({ state, onClick, id }) => {
       .put(`http://localhost/api/users/?updok=${id}`, inputs)
       .then(function (response) {
         console.log(response.data);
-        if (response.data.berhasil == "oye") {
+        if (response.data.status == 1) {
           window.location.reload();
         }
+      });
+  };
+  const handleSelected = (item) => {
+    console.log(item);
+    axios
+      .put(`http://localhost/api/users/?admdok=${item}`, { ...inputs, id: id })
+      .then(function (response) {
+        console.log(response.data);
       });
   };
   useEffect(() => {
@@ -76,6 +85,7 @@ const ModalDoctor = ({ state, onClick, id }) => {
                   <label className="font-medium">Full Name</label>
                   <input
                     type="text"
+                    name="nama"
                     required
                     onChange={handleChange}
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"
@@ -83,14 +93,15 @@ const ModalDoctor = ({ state, onClick, id }) => {
                 </div>
 
                 <Select
-                  items={items}
+                  items={specialistItems}
                   title="specialists"
-                  getValue={handleChange}
+                  getValue={handleSelected}
                 />
                 <div>
                   <label className="font-medium">Gaji</label>
                   <input
                     type="number"
+                    name="gaji"
                     required
                     onChange={handleChange}
                     className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-pink-600 shadow-sm rounded-lg"

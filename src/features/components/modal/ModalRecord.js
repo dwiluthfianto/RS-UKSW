@@ -129,3 +129,4 @@ const ModalRecord = ({ state, onClick, id }) => {
 };
 
 export default ModalRecord;
+
