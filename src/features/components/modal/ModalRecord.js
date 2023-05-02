@@ -20,12 +20,12 @@ const ModalRecord = ({ state, onClick, id }) => {
       });
   }
   const handleSubmit = (event) => {
-    event.preventDefault();
     axios
       .put(`http://localhost/api/users/?medrecord=${users.id_record}`, inputs)
       .then(function (response) {
         console.log(response.data);
         if (response.data.berhasil == "oye") {
+          Navigate("/");
           window.location.reload();
         }
       });
@@ -129,3 +129,4 @@ const ModalRecord = ({ state, onClick, id }) => {
 };
 
 export default ModalRecord;
+

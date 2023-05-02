@@ -2,8 +2,10 @@ import React from "react";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { ModalSuccess } from "../../features/components";
 
 const Signup = () => {
+  const [stat, setStat] = useState();
   const [inputs, setInputs] = useState([]);
   const [selectedRole, setSelectedRole] = useState("Patient");
   const [selectSpesialist, setDoctorSpecialist] = useState();
@@ -27,8 +29,7 @@ const Signup = () => {
     axios
       .post("http://localhost/api/users/", { ...inputs, cek: hidden })
       .then(function (response) {
-        console.log(response.data);
-        window.location.reload();
+        setStat(response.data.status);
       });
     console.log(inputs);
   };
@@ -40,6 +41,9 @@ const Signup = () => {
   }
   return (
     <div>
+      {stat === 1 ? (
+        <ModalSuccess text="Create an account" to={"/admin/accounts"} />
+      ) : null}
       <div className="max-w-sm  w-full mx-auto flex flex-col items-end  mt-12 ">
         <NavLink end to="/admin/accounts">
           <i class="ri-close-line ri-2x hover:text-red-600 cursor-pointer"></i>

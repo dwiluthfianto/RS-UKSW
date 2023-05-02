@@ -15,7 +15,6 @@ const ModalAppointment = ({ state, onClick, id }) => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
   const handleSubmit = (event) => {
-    event.preventDefault();
     axios
       .put(`http://localhost/api/users/?appo=${id}`, inputs)
       .then(function (response) {
