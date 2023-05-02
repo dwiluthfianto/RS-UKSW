@@ -17,6 +17,7 @@ const Login = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("a");
     axios
       .post("http://localhost/api/users/", { ...inputs, cek: hidden })
       .then(function (response) {

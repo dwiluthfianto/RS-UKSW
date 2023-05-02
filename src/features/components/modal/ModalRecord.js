@@ -26,7 +26,6 @@ const ModalRecord = ({ state, onClick, id }) => {
       .then(function (response) {
         console.log(response.data);
         if (response.data.berhasil == "oye") {
-          Navigate("/");
           window.location.reload();
         }
       });
