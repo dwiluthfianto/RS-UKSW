@@ -15,3 +15,4 @@ export { default as ModalAppointment } from "./modal/ModalAppointment";
 export { default as ModalDoctor } from "./modal/ModalDoctor";
 export { default as ModalRecord } from "./modal/ModalRecord";
 export { default as ModalSuccess } from "./modal/ModalSuccess";
+export { default as ModalError } from "./modal/ModalError";

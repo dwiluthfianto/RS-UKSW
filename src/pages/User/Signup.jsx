@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ModalSuccess } from "../../features/components";
+import { ModalError, ModalSuccess } from "../../features/components";
 
 const Signup = () => {
   const [inputs, setInputs] = useState([]);
@@ -25,6 +25,12 @@ const Signup = () => {
     <div>
       {stat === 1 ? (
         <ModalSuccess text="Create an account" to={"/signup"} />
+      ) : stat === 0 ? (
+        <ModalError
+          text="Create an account"
+          to={"/signup"}
+          message="Email telah digunakan"
+        />
       ) : null}
       <main className="w-full h-screen flex flex-col items-center mt-12 px-4">
         <div className="max-w-sm w-full text-gray-600 space-y-5">

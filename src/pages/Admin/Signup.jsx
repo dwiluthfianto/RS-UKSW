@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { ModalSuccess } from "../../features/components";
+import { ModalError, ModalSuccess } from "../../features/components";
 
 const Signup = () => {
   const [stat, setStat] = useState();
@@ -31,7 +31,6 @@ const Signup = () => {
       .then(function (response) {
         setStat(response.data.status);
       });
-    console.log(inputs);
   };
   const radios = ["Patient", "Doctor"];
   const radioss = ["Cardiologist", "Neurologist", "Oncologist"];
@@ -43,6 +42,8 @@ const Signup = () => {
     <div>
       {stat === 1 ? (
         <ModalSuccess text="Create an account" to={"/admin/accounts"} />
+      ) : stat === 0 ? (
+        <ModalError text="Create an account" to={"/admin/signup"} />
       ) : null}
       <div className="max-w-sm  w-full mx-auto flex flex-col items-end  mt-12 ">
         <NavLink end to="/admin/accounts">
