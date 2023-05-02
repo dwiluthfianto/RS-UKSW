@@ -11,7 +11,16 @@
                 $db->beginTransaction();
                 $user = json_decode(file_get_contents('php://input'));
                 if ($user->cek == "daftar_pasien") {
-                    $sql = "INSERT INTO akun (email, password, status,create_at) values(:email, :password, :status,:create_at)";
+                    $sql="SELECT * FROM akun WHERE email=:email";
+                    $stmt5=$db->prepare($sql);
+                    $stmt5->bindParam(':email',$user->email);
+                    $stmt5->execute();
+                    $users=$stmt5->fetchObject();
+                    if(isset($users->email)){
+                        $data = ['status' => 0, 'message' => "Failed to create record."];
+                    }
+                    else{
+                        $sql = "INSERT INTO akun (email, password, status,create_at) values(:email, :password, :status,:create_at)";
                         $stmt = $db->prepare($sql);
                         $status = "pasien";
                         $date=date("Y-m-d");
@@ -35,59 +44,72 @@
                     } else {
                         $data = ['status' => 0, 'message' => "Failed to create record."];
                     }
+                    }
+                    
                 }
                 else if($user->cek=="daftar_admin"){
-                    if($user->role=="Doctor"){
-                        $sql = "INSERT INTO akun (email, password, status,create_at) values(:email, :password, :status,:create_at)";
-                        $stmt = $db->prepare($sql);
-                        $status = "dokter";
-                        $date=date("Y-m-d");
-                        $stmt->bindParam(':email', $user->email);
-                        $stmt->bindParam(':password', $user->password);
-                        $stmt->bindParam(':status', $status);
-                        $stmt->bindParam(':create_at',$date);
-                    
-                        if ($stmt->execute()) {
-                            $id_akun = $db->lastInsertId(); 
-                            $querydokter = "INSERT INTO ". $status ." (id, nama,id_spesialisasi) values(:id_akun, :nama,:id_spesialis)";
-                            $stmt2 = $db->prepare($querydokter);
-                            $stmt2->bindParam(":id_akun", $id_akun);
-                            $stmt2->bindParam(":nama", $user->nama);
-                            $stmt2->bindParam(":id_spesialis", $user->roless);
-                            $stmt2->execute(); 
-                    
-                            $db->commit();
-                            $data = ['status' => 1, 'message' => "Record successfully created"];
-                        } else {
-                            $data = ['status' => 0, 'message' => "Failed to create record."];
+                    $sql="SELECT * FROM akun WHERE email=:email";
+                    $stmt5=$db->prepare($sql);
+                    $stmt5->bindParam(':email',$user->email);
+                    $stmt5->execute();
+                    $users=$stmt5->fetchObject();
+                    if(isset($users->email)){
+                        $data = ['status' => 0, 'message' => "Failed to create record."];
+                    }
+                    else{
+                        if($user->role=="Doctor"){
+                            $sql = "INSERT INTO akun (email, password, status,create_at) values(:email, :password, :status,:create_at)";
+                            $stmt = $db->prepare($sql);
+                            $status = "dokter";
+                            $date=date("Y-m-d");
+                            $stmt->bindParam(':email', $user->email);
+                            $stmt->bindParam(':password', $user->password);
+                            $stmt->bindParam(':status', $status);
+                            $stmt->bindParam(':create_at',$date);
+                        
+                            if ($stmt->execute()) {
+                                $id_akun = $db->lastInsertId(); 
+                                $querydokter = "INSERT INTO ". $status ." (id, nama,id_spesialisasi) values(:id_akun, :nama,:id_spesialis)";
+                                $stmt2 = $db->prepare($querydokter);
+                                $stmt2->bindParam(":id_akun", $id_akun);
+                                $stmt2->bindParam(":nama", $user->nama);
+                                $stmt2->bindParam(":id_spesialis", $user->roless);
+                                $stmt2->execute(); 
+                        
+                                $db->commit();
+                                $data = ['status' => 1, 'message' => "Record successfully created"];
+                            } else {
+                                $data = ['status' => 0, 'message' => "Failed to create record."];
+                            }
+                        }
+                        else if($user->role=="Patient"){
+                            $sql = "INSERT INTO akun (email, password, status,create_at) values(:email, :password, :status,:create_at)";
+                            $stmt = $db->prepare($sql);
+                            $status = "pasien";
+                            $date=date("Y-m-d");
+                            $stmt->bindParam(':email', $user->email);
+                            $stmt->bindParam(':password', $user->password);
+                            $stmt->bindParam(':status', $status);
+                            $stmt->bindParam(':create_at',$date);
+                        
+                            if ($stmt->execute()) {
+                                $id_akun = $db->lastInsertId();
+                                $querydokter = "INSERT INTO ". $status ." (id, nama,id_record) values(:id_akun, :nama,:id_record)";
+                                $id_record=$id_akun+10;
+                                $stmt2 = $db->prepare($querydokter);
+                                $stmt2->bindParam(":id_akun", $id_akun);
+                                $stmt2->bindParam(":nama", $user->nama);
+                                $stmt2->bindParam(":id_record", $id_record);
+                                $stmt2->execute();
+                        
+                                $db->commit();
+                                $data = ['status' => 1, 'message' => "Record successfully created"];
+                            } else {
+                                $data = ['status' => 0, 'message' => "Failed to create record."];
+                            }
                         }
                     }
-                    else if($user->role=="Patient"){
-                        $sql = "INSERT INTO akun (email, password, status,create_at) values(:email, :password, :status,:create_at)";
-                        $stmt = $db->prepare($sql);
-                        $status = "pasien";
-                        $date=date("Y-m-d");
-                        $stmt->bindParam(':email', $user->email);
-                        $stmt->bindParam(':password', $user->password);
-                        $stmt->bindParam(':status', $status);
-                        $stmt->bindParam(':create_at',$date);
-                    
-                        if ($stmt->execute()) {
-                            $id_akun = $db->lastInsertId();
-                            $querydokter = "INSERT INTO ". $status ." (id, nama,id_record) values(:id_akun, :nama,:id_record)";
-                            $id_record=$id_akun+10;
-                            $stmt2 = $db->prepare($querydokter);
-                            $stmt2->bindParam(":id_akun", $id_akun);
-                            $stmt2->bindParam(":nama", $user->nama);
-                            $stmt2->bindParam(":id_record", $id_record);
-                            $stmt2->execute();
-                    
-                            $db->commit();
-                            $data = ['status' => 1, 'message' => "Record successfully created"];
-                        } else {
-                            $data = ['status' => 0, 'message' => "Failed to create record."];
-                        }
-                    }
+
                 }
                 else if($user->cek=="login"){
                     $sql="SELECT * FROM akun WHERE email=:email";
@@ -191,14 +213,51 @@
             }
             else if(isset($_GET["appos"])){
                 
-                $sql="SELECT pasien.*, dokter.nama as nama_dokter, akun.email
+                $sql="SELECT pasien.*, dokter.nama as nama_dokter,spesialis.spesialisasi, akun.email
                 FROM pasien
                 JOIN dokter ON pasien.id_dokter = dokter.id
+                JOIN spesialis ON dokter.id_spesialisasi = spesialis.id_spesialisasi
                 JOIN akun ON pasien.id=akun.id
                 WHERE pasien.id_dokter IS NOT NULL";
                 $stmt=$db->prepare($sql);
                 $stmt->execute();
                 $users=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            else if(isset($_GET["appodok"])){
+                
+                $sql="SELECT pasien.*, dokter.nama as nama_dokter,dokter.gaji,spesialis.spesialisasi, akun.email
+                FROM pasien
+                JOIN dokter ON pasien.id_dokter = dokter.id
+                JOIN spesialis ON dokter.id_spesialisasi = spesialis.id_spesialisasi
+                JOIN akun ON pasien.id=akun.id
+                WHERE pasien.id_dokter = :id";
+                $stmt=$db->prepare($sql);
+                $stmt->bindParam(":id",$_GET["appodok"]);
+                $stmt->execute();
+                $users=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            else if(isset($_GET["appodokmod"])){
+                
+                $sql="SELECT pasien.*, akun.email
+                FROM pasien
+                JOIN akun ON pasien.id=akun.id
+                WHERE pasien.id=:id";
+                $stmt=$db->prepare($sql);
+                $stmt->bindParam(":id",$_GET["appodokmod"]);
+                $stmt->execute();
+                $users=$stmt->fetchObject();
+            }
+            else if(isset($_GET["appousrmod"])){
+                
+                $sql="SELECT pasien.*, akun.email, record.obat, record.diagnosa
+                FROM pasien
+                JOIN akun ON pasien.id=akun.id
+                JOIN record ON pasien.id_record = record.id_record
+                WHERE pasien.id=:id";
+                $stmt=$db->prepare($sql);
+                $stmt->bindParam(":id",$_GET["appousrmod"]);
+                $stmt->execute();
+                $users=$stmt->fetchObject();
             }
             else if(isset($_GET["apposs"])){
                 
@@ -206,6 +265,13 @@
                 FROM dokter 
                 JOIN akun ON dokter.id = akun.id 
                 JOIN spesialis ON dokter.id_spesialisasi = spesialis.id_spesialisasi;";
+                $stmt=$db->prepare($sql);
+                $stmt->execute();
+                $users=$stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            else if(isset($_GET["spesialis"])){
+                
+                $sql="SELECT * FROM spesialis";
                 $stmt=$db->prepare($sql);
                 $stmt->execute();
                 $users=$stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -285,6 +351,28 @@
                 }
 
             }
+            else if(isset($_GET["admdok"])){
+                $sql="SELECT id_spesialisasi from spesialis where spesialisasi=:spesialisasi";
+                $stmt=$db->prepare($sql);
+                $stmt->bindParam(":spesialisasi",$_GET["admdok"]);
+                $stmt->execute();
+                $users=$stmt->fetchObject();
+                if(isset($users->id_spesialisasi)){
+                    $sql="UPDATE dokter SET id_spesialisasi=:idspesialisasi where id=:id";
+                    $stmt2=$db->prepare($sql);
+                    $stmt2->bindParam(":idspesialisasi", $users->id_spesialisasi);
+                    $stmt2->bindParam(":id",$user->id);
+                    if($stmt2->execute()){
+                        $data = ['status' => 1, 'message' => "Behasil Bre"];
+                    }
+                    else{
+                        $data = ['status' => 0, 'message' => "Gagal Bre"];
+                    }
+                }
+                else{
+                    $data = ['status' => 0, 'message' => "Gagal Bre"];
+                }
+            }
             else if(isset($_GET["iddoktor"])){
                 $sql="SELECT id from dokter where nama=:nama";
                 $stmt=$db->prepare($sql);
@@ -302,6 +390,28 @@
                 else{
                     $data = ['status' => 0, 'message' => "Success to update record"];
                 }
+            }
+            else if(isset($_GET["updok"])){
+                    $sql="UPDATE dokter SET nama=:nama ,gaji=:gaji  where id=:id";
+                    $stmt=$db->prepare($sql);
+                    $stmt->bindParam(":id",$_GET["updok"]);
+                    $stmt->bindParam(":nama",$user->nama);
+                    $stmt->bindParam(":gaji",$user->gaji);
+                    if($stmt->execute()){
+                        $data = ['status' => 1, 'message' => "Success to update record",'aja'=>"oye"];
+                    }
+                    
+                
+            }
+            else if(isset($_GET["medrecord"])){
+                    $sql="INSERT INTO record (id_record, diagnosa, obat) VALUES (:id, :diagnosa,:obat)";
+                    $stmt=$db->prepare($sql);
+                    $stmt->bindParam(":id",$_GET["medrecord"]);
+                    $stmt->bindParam(":diagnosa",$user->diagnosa);
+                    $stmt->bindParam(":obat",$user->obat);
+                    $stmt->execute();
+                    $data = ['status' => 1, 'message' => "Success to update record",'berhasil'=>"oye"];
+                
             }
             else{
             //var_dump($user);
